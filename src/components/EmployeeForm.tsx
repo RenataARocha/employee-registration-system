@@ -1,3 +1,5 @@
+import InputField from "./InputField"
+
 function EmployeeForm() {
     return (
         <div>
@@ -5,24 +7,53 @@ function EmployeeForm() {
 
             <section className="container">
                 <form>
-                    <label htmlFor="nome-completo">Nome:</label>
-                    <input type="text" name="name" id="nome-completo" placeholder="nome completo" />
 
-                    <label htmlFor="cpf">CPF:</label>
-                    <input type="text" name="cpf" inputMode="numeric" id="cpf" placeholder="digite sem cpf" />
+                    <InputField
+                        label="Nome"
+                        type="text"
+                        name="name"
+                        id="name"
+                        value=""
+                        onChange={() => { }}
+                        placeholder="Nome completo"
+                    />
 
-                    <label htmlFor="email">E-mail:</label>
-                    <input type="email" name="email" id="email" placeholder="digite seu email" />
+                    <InputField
+                        label="CPF"
+                        type="text"
+                        name="cpf"
+                        id="cpf"
+                        value=""
+                        onChange={() => { }}
+                        placeholder="Digite seu CPF"
+                    />
 
-                    <label htmlFor="cargo">Cargo:</label>
-                    <input type="text" name="role" id="cargo" placeholder="digite seu cargo" />
+                    <InputField
+                        label="E-mail"
+                        type="email"
+                        name="email"
+                        id="email"
+                        value=""
+                        onChange={() => { }}
+                        placeholder="Digite seu email"
+                    />
+
+                    <InputField
+                        label="Cargo"
+                        type="text"
+                        name="role"
+                        id="role"
+                        value=""
+                        onChange={() => { }}
+                        placeholder="Digite seu cargo"
+                    />
 
                     <button type="submit">Cadastrar</button>
-                </form>
 
+                </form>
             </section>
         </div>
     )
 }
 
-export default EmployeeForm;
+export default EmployeeForm
