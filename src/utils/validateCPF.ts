@@ -1,4 +1,4 @@
-export function validarCPF(cpf: string): boolean {
+export function validateCPF(cpf: string): boolean {
 
     const cleanCPF = cpf.replace(/\D/g, "")
 
