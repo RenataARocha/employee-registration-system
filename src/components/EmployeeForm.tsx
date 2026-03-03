@@ -1,20 +1,59 @@
 import InputField from "./InputField"
+import { validateEmail } from "../utils/validateEmail"
+import { validateCPF } from "../utils/validateCPF"
+import { useState } from "react"
+
+
 
 function EmployeeForm() {
+
+    const [formData, setFormData] = useState({
+        name: "",
+        cpf: "",
+        email: "",
+        role: ""
+    })
+
+    function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+        const { name, value } = event.target
+
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }))
+    }
+
+
+    function handleSubmit(event: React.FormEvent) {
+        event.preventDefault()
+
+        if (!validateEmail(formData.email)) {
+            alert("Email inválido")
+            return
+        }
+
+        if (!validateCPF(formData.cpf)) {
+            alert("CPF inválido")
+            return
+        }
+
+        alert("Formulário válido!")
+    }
+
     return (
         <div>
             <h1>Cadastro de funcionários</h1>
 
             <section className="container">
-                <form>
+                <form onSubmit={handleSubmit}>
 
                     <InputField
                         label="Nome"
                         type="text"
                         name="name"
                         id="name"
-                        value=""
-                        onChange={() => { }}
+                        value={formData.name}
+                        onChange={handleChange}
                         placeholder="Nome completo"
                     />
 
@@ -23,8 +62,8 @@ function EmployeeForm() {
                         type="text"
                         name="cpf"
                         id="cpf"
-                        value=""
-                        onChange={() => { }}
+                        value={formData.cpf}
+                        onChange={handleChange}
                         placeholder="Digite seu CPF"
                     />
 
@@ -33,8 +72,8 @@ function EmployeeForm() {
                         type="email"
                         name="email"
                         id="email"
-                        value=""
-                        onChange={() => { }}
+                        value={formData.email}
+                        onChange={handleChange}
                         placeholder="Digite seu email"
                     />
 
@@ -43,8 +82,8 @@ function EmployeeForm() {
                         type="text"
                         name="role"
                         id="role"
-                        value=""
-                        onChange={() => { }}
+                        value={formData.role}
+                        onChange={handleChange}
                         placeholder="Digite seu cargo"
                     />
 
@@ -56,4 +95,4 @@ function EmployeeForm() {
     )
 }
 
-export default EmployeeForm
+export default EmployeeForm;
