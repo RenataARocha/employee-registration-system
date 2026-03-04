@@ -3,6 +3,8 @@ import { validateEmail } from "../utils/validateEmail"
 import { validateCPF } from "../utils/validateCPF"
 import { useState } from "react"
 import { fetchAddressByCep } from "../services/viaCepService"
+import { useNavigate } from "react-router-dom"
+import type { Employee } from "../types/employee"
 
 
 function EmployeeForm() {
@@ -17,6 +19,8 @@ function EmployeeForm() {
         city: "",
         state: ""
     })
+
+    const navigate = useNavigate()
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target
@@ -41,7 +45,19 @@ function EmployeeForm() {
             return
         }
 
-        alert("Formulário válido!")
+        const newEmployee: Employee = { ...formData }
+
+        const storedEmployees = localStorage.getItem("employees")
+
+        const employees: Employee[] = storedEmployees
+            ? JSON.parse(storedEmployees)
+            : []
+
+        employees.push(newEmployee)
+
+        localStorage.setItem("employees", JSON.stringify(employees))
+
+        navigate("/funcionarios")
     }
 
 
