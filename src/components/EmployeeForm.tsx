@@ -2,7 +2,7 @@ import InputField from "./InputField"
 import { validateEmail } from "../utils/validateEmail"
 import { validateCPF } from "../utils/validateCPF"
 import { useState } from "react"
-
+import { fetchAddressByCep } from "../services/viaCepService"
 
 
 function EmployeeForm() {
@@ -11,7 +11,11 @@ function EmployeeForm() {
         name: "",
         cpf: "",
         email: "",
-        role: ""
+        role: "",
+        cep: "",
+        street: "",
+        city: "",
+        state: ""
     })
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -39,6 +43,24 @@ function EmployeeForm() {
 
         alert("Formulário válido!")
     }
+
+
+    async function handleCepBlur() {
+        try {
+            const address = await fetchAddressByCep(formData.cep)
+
+            setFormData(prev => ({
+                ...prev,
+                street: address.logradouro,
+                city: address.localidade,
+                state: address.uf
+            }))
+        } catch (error) {
+            alert("Erro ao buscar CEP")
+        }
+    }
+
+
 
     return (
         <div>
@@ -85,6 +107,47 @@ function EmployeeForm() {
                         value={formData.role}
                         onChange={handleChange}
                         placeholder="Digite seu cargo"
+                    />
+
+                    <InputField
+                        label="CEP"
+                        type="text"
+                        name="cep"
+                        id="cep"
+                        value={formData.cep}
+                        onChange={handleChange}
+                        onBlur={handleCepBlur}
+                        placeholder="Digite seu CEP"
+                    />
+
+                    <InputField
+                        label="Rua"
+                        type="text"
+                        name="street"
+                        id="street"
+                        value={formData.street}
+                        onChange={handleChange}
+                        placeholder="Rua"
+                    />
+
+                    <InputField
+                        label="Cidade"
+                        type="text"
+                        name="city"
+                        id="city"
+                        value={formData.city}
+                        onChange={handleChange}
+                        placeholder="Cidade"
+                    />
+
+                    <InputField
+                        label="Estado"
+                        type="text"
+                        name="state"
+                        id="state"
+                        value={formData.state}
+                        onChange={handleChange}
+                        placeholder="Estado"
                     />
 
                     <button type="submit">Cadastrar</button>

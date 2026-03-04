@@ -5,6 +5,7 @@ type InputFieldProps = {
     id: string
     value: string
     onChange: React.ChangeEventHandler<HTMLInputElement>
+    onBlur?: React.FocusEventHandler<HTMLInputElement>
     placeholder?: string
 }
 
@@ -18,7 +19,9 @@ function InputField(props: InputFieldProps) {
                 id={props.id}
                 value={props.value}
                 onChange={props.onChange}
+                onBlur={props.onBlur}
                 placeholder={props.placeholder}
+
             />
         </div>
     )
