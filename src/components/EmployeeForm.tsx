@@ -80,6 +80,9 @@ function EmployeeForm() {
 
     return (
         <div>
+            <button type="button" onClick={() => navigate("/")}>
+                ← Voltar
+            </button>
             <h1>Cadastro de funcionários</h1>
 
             <section className="container">
