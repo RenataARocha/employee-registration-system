@@ -12,6 +12,18 @@ function Employees() {
         }
     }, [])
 
+
+    function handleDelete(indexToDelete: number) {
+        const updatedEmployees = employees.filter(
+            (_, index) => index !== indexToDelete
+        )
+
+        setEmployees(updatedEmployees)
+
+        localStorage.setItem("employees", JSON.stringify(updatedEmployees))
+    }
+
+
     return (
         <div>
             <h1>Funcionários Cadastrados</h1>
@@ -23,6 +35,13 @@ function Employees() {
                     {employees.map((employee, index) => (
                         <li key={index}>
                             <strong>{employee.name}</strong> — {employee.role} — {employee.city}
+
+                            <button
+                                style={{ marginLeft: "10px" }}
+                                onClick={() => handleDelete(index)}
+                            >
+                                Excluir
+                            </button>
                         </li>
                     ))}
                 </ul>
