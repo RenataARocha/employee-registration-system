@@ -1,0 +1,153 @@
+.illustration-container {
+    position: relative;
+    width: 100%;
+    height: 380px;
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bg-shape {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.5;
+    animation: pulse 4s infinite;
+}
+
+.shape-blue {
+    top: 0;
+    right: 0;
+    background: #bfdbfe;
+}
+
+.shape-green {
+    bottom: 0;
+    left: 0;
+    background: #a7f3d0;
+    animation-delay: 2s;
+}
+
+.card-wrapper {
+    position: relative;
+}
+
+.card {
+    width: 280px;
+    background: white;
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.card-grid div {
+    height: 30px;
+    background: #e2e8f0;
+    border-radius: 8px;
+}
+
+.card-grid .highlight {
+    background: #bfdbfe;
+}
+
+.card-lines div {
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 20px;
+    margin-bottom: 8px;
+}
+
+.card-lines .short {
+    width: 80%;
+}
+
+.card-lines .smaller {
+    width: 60%;
+}
+
+.card-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.card-buttons div {
+    flex: 1;
+    height: 40px;
+    border-radius: 8px;
+}
+
+.card-buttons .primary {
+    background: #3b82f6;
+}
+
+.card-buttons .secondary {
+    background: #e2e8f0;
+}
+
+.floating-check {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 60px;
+    height: 60px;
+    background: #2563eb;
+    color: white;
+    font-size: 24px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: bounce 2s infinite;
+}
+
+.floating-team {
+    position: absolute;
+    bottom: -20px;
+    left: -20px;
+    width: 70px;
+    height: 70px;
+    background: #10b981;
+    color: white;
+    font-size: 28px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: bounce 2s infinite;
+    animation-delay: 0.5s;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 0.4;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+}
