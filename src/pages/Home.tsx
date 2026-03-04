@@ -1,12 +1,22 @@
+import { useNavigate } from "react-router-dom"
+
 function Home() {
+    const navigate = useNavigate()
+
     return (
         <div>
             <h1>Cadastro de Funcionários</h1>
             <p>Sistema simples para gerenciar sua equipe.</p>
 
             <div style={{ marginTop: "20px" }}>
-                <button> Novo Cadastro</button>
-                <button style={{ marginLeft: "10px" }}>
+                <button onClick={() => navigate("/novo-funcionario")}>
+                    Novo Cadastro
+                </button>
+
+                <button
+                    style={{ marginLeft: "10px" }}
+                    onClick={() => navigate("/funcionarios")}
+                >
                     Ver Funcionários
                 </button>
             </div>
