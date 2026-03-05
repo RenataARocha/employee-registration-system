@@ -5,7 +5,7 @@ import { useState } from "react"
 import { fetchAddressByCep } from "../services/viaCepService"
 import { useNavigate } from "react-router-dom"
 import type { Employee } from "../types/employee"
-
+import "./EmployeeForm.css"
 
 function EmployeeForm() {
 
@@ -94,7 +94,28 @@ function EmployeeForm() {
             <button type="button" onClick={() => navigate("/")}>
                 ← Voltar
             </button>
-            <h1>Cadastro de funcionários</h1>
+
+            <div className="form-header">
+                <h2 className="form-title">
+                    <svg
+                        className="header-icon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                        />
+                    </svg>
+                    Dados do Funcionário
+                </h2>
+                <p className="form-subtitle">
+                    Preencha todos os campos obrigatórios
+                </p>
+            </div>
 
             <div className="section-title">
                 <svg
