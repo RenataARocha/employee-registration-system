@@ -7,12 +7,19 @@ type InputFieldProps = {
     onChange: React.ChangeEventHandler<HTMLInputElement>
     onBlur?: React.FocusEventHandler<HTMLInputElement>
     placeholder?: string
+    icon?: React.ReactNode
 }
 
 function InputField(props: InputFieldProps) {
     return (
         <div>
-            <label htmlFor={props.id}>{props.label}</label>
+
+            {/* Label com ícone opcional */}
+            <label htmlFor={props.id}>
+                {props.icon && props.icon}
+                {props.label}
+            </label>
+
             <input
                 type={props.type}
                 name={props.name}
@@ -21,8 +28,8 @@ function InputField(props: InputFieldProps) {
                 onChange={props.onChange}
                 onBlur={props.onBlur}
                 placeholder={props.placeholder}
-
             />
+
         </div>
     )
 }
