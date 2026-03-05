@@ -95,10 +95,33 @@ function EmployeeForm() {
                 ← Voltar
             </button>
 
-            <div className="form-header">
-                <h2 className="form-title">
+            <section className="container">
+
+                <div className="form-header">
+                    <h2 className="form-title">
+                        <svg
+                            className="header-icon"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                            />
+                        </svg>
+                        Dados do Funcionário
+                    </h2>
+                    <p className="form-subtitle">
+                        Preencha todos os campos obrigatórios
+                    </p>
+                </div>
+
+                <div className="section-title">
                     <svg
-                        className="header-icon"
+                        className="section-icon"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -107,34 +130,11 @@ function EmployeeForm() {
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth="2"
-                            d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                         />
                     </svg>
-                    Dados do Funcionário
-                </h2>
-                <p className="form-subtitle">
-                    Preencha todos os campos obrigatórios
-                </p>
-            </div>
-
-            <div className="section-title">
-                <svg
-                    className="section-icon"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                    />
-                </svg>
-                Informações Pessoais
-            </div>
-
-            <section className="container">
+                    Informações Pessoais
+                </div>
                 <form onSubmit={handleSubmit}>
 
                     <InputField
@@ -147,25 +147,27 @@ function EmployeeForm() {
                         placeholder="Digite o nome completo do funcionário"
                     />
 
-                    <InputField
-                        label="CPF"
-                        type="text"
-                        name="cpf"
-                        id="cpf"
-                        value={formData.cpf}
-                        onChange={handleChange}
-                        placeholder="000.000.000-00"
-                    />
+                    <div className="form-row-2">
+                        <InputField
+                            label="CPF"
+                            type="text"
+                            name="cpf"
+                            id="cpf"
+                            value={formData.cpf}
+                            onChange={handleChange}
+                            placeholder="000.000.000-00"
+                        />
 
-                    <InputField
-                        label="E-mail"
-                        type="email"
-                        name="email"
-                        id="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder="exemplo@empresa.com.br"
-                    />
+                        <InputField
+                            label="E-mail"
+                            type="email"
+                            name="email"
+                            id="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            placeholder="exemplo@empresa.com.br"
+                        />
+                    </div>
 
                     <InputField
                         label="Cargo"
@@ -226,55 +228,93 @@ function EmployeeForm() {
                         placeholder="Nome da rua"
                     />
 
-                    <InputField
-                        label="Número"
-                        type="number"
-                        name="number"
-                        id="number"
-                        value={formData.number}
-                        onChange={handleChange}
-                        placeholder="N°"
-                    />
+                    <div className="form-row-3">
+                        <InputField
+                            label="Número"
+                            type="number"
+                            name="number"
+                            id="number"
+                            value={formData.number}
+                            onChange={handleChange}
+                            placeholder="N°"
+                        />
 
-                    <InputField
-                        label="Complemento"
-                        type="text"
-                        name="complemento"
-                        id="complemento"
-                        value={formData.complemento}
-                        onChange={handleChange}
-                        placeholder="Apto, Bloco, etc."
-                    />
+                        <InputField
+                            label="Complemento"
+                            type="text"
+                            name="complemento"
+                            id="complemento"
+                            value={formData.complemento}
+                            onChange={handleChange}
+                            placeholder="Apto, Bloco, etc."
+                        />
 
-                    <InputField
-                        label="Bairro"
-                        type="text"
-                        name="bairro"
-                        id="bairro"
-                        value={formData.bairro}
-                        onChange={handleChange}
-                        placeholder="Nome do bairro"
-                    />
+                        <InputField
+                            label="Bairro"
+                            type="text"
+                            name="bairro"
+                            id="bairro"
+                            value={formData.bairro}
+                            onChange={handleChange}
+                            placeholder="Nome do bairro"
+                        />
+                    </div>
 
-                    <InputField
-                        label="Cidade"
-                        type="text"
-                        name="city"
-                        id="city"
-                        value={formData.city}
-                        onChange={handleChange}
-                        placeholder="Nome da cidade"
-                    />
+                    <div className="form-row-2">
+                        <InputField
+                            label="Cidade"
+                            type="text"
+                            name="city"
+                            id="city"
+                            value={formData.city}
+                            onChange={handleChange}
+                            placeholder="Nome da cidade"
+                        />
 
-                    <InputField
-                        label="Estado"
-                        type="text"
-                        name="state"
-                        id="state"
-                        value={formData.state}
-                        onChange={handleChange}
-                        placeholder="UF"
-                    />
+                        <div className="input-group">
+                            <label htmlFor="state">Estado</label>
+                            <select
+                                name="state"
+                                id="state"
+                                value={formData.state}
+                                onChange={(e) =>
+                                    setFormData(prev => ({
+                                        ...prev,
+                                        state: e.target.value
+                                    }))
+                                }
+                            >
+                                <option value="">Selecione</option>
+                                <option value="AC">Acre</option>
+                                <option value="AL">Alagoas</option>
+                                <option value="AP">Amapá</option>
+                                <option value="AM">Amazonas</option>
+                                <option value="BA">Bahia</option>
+                                <option value="CE">Ceará</option>
+                                <option value="DF">Distrito Federal</option>
+                                <option value="ES">Espírito Santo</option>
+                                <option value="GO">Goiás</option>
+                                <option value="MA">Maranhão</option>
+                                <option value="MT">Mato Grosso</option>
+                                <option value="MS">Mato Grosso do Sul</option>
+                                <option value="MG">Minas Gerais</option>
+                                <option value="PA">Pará</option>
+                                <option value="PB">Paraíba</option>
+                                <option value="PR">Paraná</option>
+                                <option value="PE">Pernambuco</option>
+                                <option value="PI">Piauí</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="RN">Rio Grande do Norte</option>
+                                <option value="RS">Rio Grande do Sul</option>
+                                <option value="RO">Rondônia</option>
+                                <option value="RR">Roraima</option>
+                                <option value="SC">Santa Catarina</option>
+                                <option value="SP">São Paulo</option>
+                                <option value="SE">Sergipe</option>
+                                <option value="TO">Tocantins</option>
+                            </select>
+                        </div>
+                    </div>
 
                     <button
                         type="submit"
