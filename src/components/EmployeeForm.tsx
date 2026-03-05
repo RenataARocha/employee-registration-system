@@ -91,9 +91,15 @@ function EmployeeForm() {
 
     return (
         <div>
-            <button type="button" onClick={() => navigate("/")}>
-                ← Voltar
-            </button>
+            <div className="page-top">
+                <button
+                    type="button"
+                    onClick={() => navigate("/")}
+                    className="back-button"
+                >
+                    ← Voltar
+                </button>
+            </div>
 
             <section className="container">
 

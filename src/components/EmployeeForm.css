@@ -1,44 +1,50 @@
-/* ===== Layout Geral ===== */
+/*  Layout da Página  */
 
-.container {
-    background: white;
-    max-width: 720px;
-    margin: 40px auto;
-    padding: 32px;
-    border-radius: 16px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
-}
-
-form {
+.page-top {
+    max-width: 920px;
+    margin: 40px auto 0 auto;
     display: flex;
-    flex-direction: column;
-    gap: 18px;
+    align-items: center;
 }
 
-/* ===== Botão Voltar ===== */
+/*  Botão Voltar  */
 
-button[type="button"] {
-    margin: 20px 0 0 40px;
-    background: none;
-    border: none;
+.back-button {
+    background: white;
+    border: 1px solid #e2e8f0;
+    padding: 8px 14px;
+    border-radius: 10px;
     font-size: 14px;
     font-weight: 600;
-    color: #2563eb;
+    color: #334155;
     cursor: pointer;
     transition: 0.2s;
 }
 
-button[type="button"]:hover {
-    opacity: 0.7;
+.back-button:hover {
+    background: #f1f5f9;
+    transform: translateY(-1px);
 }
 
-/* ===== Header ===== */
+/*  Container Principal  */
+
+.container {
+    background: white;
+    width: 90%;
+    max-width: 920px;
+    margin: 20px auto 60px auto;
+    padding: 0 32px 32px 32px;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+/*  Header do Form  */
 
 .form-header {
     background: linear-gradient(to right, #2563eb, #1d4ed8);
     padding: 28px 40px;
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
+    margin: 0 -32px 24px -32px;
 }
 
 .form-title {
@@ -61,7 +67,16 @@ button[type="button"]:hover {
     color: #bfdbfe;
 }
 
-/* ===== Section Titles ===== */
+/*  Estrutura do Form  */
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 24px;
+}
+
+/*  Títulos de Seção  */
 
 .section-title {
     display: flex;
@@ -69,7 +84,7 @@ button[type="button"]:hover {
     gap: 10px;
     font-weight: 600;
     color: #334155;
-    margin-top: 24px;
+    margin-top: 10px;
     font-size: 16px;
 }
 
@@ -79,7 +94,60 @@ button[type="button"]:hover {
     color: #2563eb;
 }
 
-/* ===== Linha divisória ===== */
+/*  Layout em Colunas  */
+
+.form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-row-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+}
+
+/* Responsividade */
+
+@media (max-width: 768px) {
+
+    .form-row-2,
+    .form-row-3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/*  Inputs e Select  */
+
+label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 6px;
+    display: block;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    font-size: 14px;
+    transition: 0.2s;
+    background: #f8fafc;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #2563eb;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/*  Linha divisória  */
 
 hr {
     border: none;
@@ -88,7 +156,7 @@ hr {
     margin: 24px 0;
 }
 
-/* ===== Texto auxiliar CEP ===== */
+/*  Texto auxiliar CEP  */
 
 p {
     font-size: 13px;
@@ -96,7 +164,7 @@ p {
     margin-top: -8px;
 }
 
-/* ===== Botão Submit ===== */
+/*  Botão Submit  */
 
 .submit-button {
     margin-top: 20px;
@@ -132,7 +200,7 @@ p {
     height: 18px;
 }
 
-/* ===== Spinner ===== */
+/*  Spinner  */
 
 .spinner {
     width: 18px;
@@ -147,12 +215,4 @@ p {
     to {
         transform: rotate(360deg);
     }
-}
-
-select {
-    width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #cbd5e1;
-    font-size: 14px;
 }
