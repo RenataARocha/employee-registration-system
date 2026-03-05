@@ -97,7 +97,7 @@ function EmployeeForm() {
                     onClick={() => navigate("/")}
                     className="back-button"
                 >
-                    ← Voltar
+                    ← Voltar para Home
                 </button>
             </div>
 

@@ -2,7 +2,7 @@
 
 .page-top {
     max-width: 920px;
-    margin: 40px auto 0 auto;
+    margin: 40px auto 16px auto;
     display: flex;
     align-items: center;
 }
