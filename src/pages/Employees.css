@@ -1,5 +1,24 @@
-/* ================= LAYOUT DA PÁGINA ================= */
+/* 
+   Employees.css — Estilos da página de listagem de funcionários
+   Estrutura:
+     1. Layout da página
+     2. Header
+     3. Conteúdo
+     4. Empty state
+     5. Lista de funcionários
+     6. Card do funcionário
+     7. Botões
+     8. Modal de confirmação
+     9. Scrollbar personalizada
+ */
 
+
+/* 
+   1. LAYOUT DA PÁGINA
+   Container principal com scroll interno e barra de topo
+*/
+
+/* Card branco centralizado com altura máxima e scroll interno */
 .container {
     background: white;
     max-width: 920px;
@@ -13,6 +32,7 @@
     padding-right: 6px;
 }
 
+/* Barra acima do container que abriga o botão de voltar */
 .page-top {
     max-width: 920px;
     margin: 40px auto 16px auto;
@@ -21,8 +41,12 @@
 }
 
 
-/* ================= HEADER ================= */
+/* 
+   2. HEADER
+   Faixa azul com gradiente no topo do container
+*/
 
+/* Gradiente da esquerda para direita em dois tons de azul */
 .employees-header {
     background: linear-gradient(to right, #2563eb, #1d4ed8);
     padding: 28px 32px;
@@ -44,6 +68,7 @@
     color: white;
 }
 
+/* Contagem total com leve transparência para hierarquia visual */
 .employees-subtitle {
     margin-top: 6px;
     font-size: 14px;
@@ -52,7 +77,10 @@
 }
 
 
-/* ================= CONTEÚDO ================= */
+/* 
+   3. CONTEÚDO
+   Área interna do container onde lista ou empty state são renderizados
+ */
 
 .employees-content {
     padding: 32px;
@@ -60,13 +88,17 @@
 }
 
 
-/* ================= EMPTY STATE ================= */
+/* 
+   4. EMPTY STATE
+   Exibido quando não há nenhum funcionário cadastrado
+ */
 
 .empty-state {
     text-align: center;
     padding: 60px 20px;
 }
 
+/* Círculo cinza claro que envolve o emoji de ícone */
 .empty-icon {
     width: 96px;
     height: 96px;
@@ -90,7 +122,10 @@
 }
 
 
-/* ================= LISTA DE FUNCIONÁRIOS ================= */
+/* 
+   5. LISTA DE FUNCIONÁRIOS
+   Grade flexível que quebra linha conforme o espaço disponível
+ */
 
 .employees-list {
     list-style: none;
@@ -101,7 +136,10 @@
 }
 
 
-/* ================= CARD DO FUNCIONÁRIO ================= */
+/* 
+   6. CARD DO FUNCIONÁRIO
+   Card individual com avatar, dados e botão de exclusão
+ */
 
 .employee-card {
     background: white;
@@ -116,23 +154,20 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* Elevação sutil ao passar o mouse */
 .employee-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
-
-/* topo do card */
-
+/* Topo do card: avatar à esquerda, botão de exclusão à direita */
 .card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-
-/* avatar */
-
+/* Círculo azul com a inicial do nome do funcionário */
 .avatar {
     width: 42px;
     height: 42px;
@@ -146,9 +181,7 @@
     font-size: 18px;
 }
 
-
-/* botão deletar */
-
+/* Botão de exclusão — fundo transparente, muda para vermelho no hover */
 .delete-icon {
     border: none;
     background: transparent;
@@ -170,8 +203,7 @@
     height: 20px;
 }
 
-
-/* corpo do card */
+/* Corpo do card: dados do funcionário em coluna */
 .card-body {
     display: flex;
     flex-direction: column;
@@ -185,6 +217,7 @@
     margin-bottom: 2px;
 }
 
+/* Cargo em azul para destaque visual em relação aos outros dados */
 .role {
     color: #2563eb;
     font-weight: 600;
@@ -197,12 +230,14 @@
     line-height: 1.5;
 }
 
+/* Divisor entre os dados e a data de cadastro */
 .card-body hr {
     border: none;
     border-top: 1px solid #e2e8f0;
     margin: 10px 0;
 }
 
+/* Data de cadastro no rodapé do card */
 .date {
     font-size: 12px;
     color: #94a3b8;
@@ -210,8 +245,12 @@
 }
 
 
-/* ================= BOTÕES ================= */
+/* 
+   7. BOTÕES
+   Botão primário (empty state), voltar e ações do modal
+ */
 
+/* Botão principal usado no empty state para redirecionar ao cadastro */
 .primary-button {
     margin-top: 20px;
     padding: 14px 20px;
@@ -231,6 +270,7 @@
     transform: translateY(-1px);
 }
 
+/* Botão discreto para voltar à página inicial */
 .back-button {
     background: white;
     border: 1px solid #e2e8f0;
@@ -243,8 +283,12 @@
 }
 
 
-/* ================= MODAL ================= */
+/* 
+   8. MODAL DE CONFIRMAÇÃO
+   Overlay escurecido + caixa centralizada para confirmar exclusão
+ */
 
+/* Overlay cobre toda a tela com fundo semitransparente */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -257,9 +301,11 @@
     align-items: center;
     justify-content: center;
 
+    /* z-index alto para sobrepor todos os outros elementos */
     z-index: 999;
 }
 
+/* Caixa branca centralizada com conteúdo alinhado ao centro */
 .modal {
     background: white;
     padding: 32px;
@@ -286,6 +332,7 @@
     margin-bottom: 24px;
 }
 
+/* Linha com os dois botões de ação do modal */
 .modal-actions {
     display: flex;
     justify-content: center;
@@ -293,7 +340,7 @@
     width: 100%;
 }
 
-
+/* Botão neutro — fecha o modal sem executar nenhuma ação */
 .cancel-button {
     background: #f1f5f9;
     border: none;
@@ -303,6 +350,7 @@
     font-weight: 600;
 }
 
+/* Botão destrutivo — confirma e executa a exclusão */
 .delete-confirm {
     background: #ef4444;
     color: white;
@@ -317,6 +365,7 @@
     background: #dc2626;
 }
 
+/* Círculo vermelho claro que envolve o ícone de lixeira no modal */
 .modal-icon {
     width: 64px;
     height: 64px;
@@ -336,6 +385,7 @@
     color: #ef4444;
 }
 
+/* Mensagem de sucesso exibida após operações bem-sucedidas */
 .success-message {
     background: #ecfdf5;
     color: #065f46;
@@ -346,6 +396,12 @@
     font-weight: 500;
 }
 
+
+/* 
+   9. SCROLLBAR PERSONALIZADA
+   Estilo da barra de rolagem interna do container
+ */
+
 ::-webkit-scrollbar {
     width: 6px;
 }
@@ -354,6 +410,7 @@
     background: transparent;
 }
 
+/* Cor azul semitransparente na alça de scroll */
 ::-webkit-scrollbar-thumb {
     background: #54a6d6c5;
     border-radius: 10px;

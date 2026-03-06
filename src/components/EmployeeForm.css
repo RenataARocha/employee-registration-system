@@ -1,4 +1,27 @@
-/*  Layout da Página  */
+/* ============================================================
+   EmployeeForm.css — Estilos do formulário de cadastro
+   Estrutura:
+     1. Layout da página
+     2. Botão voltar
+     3. Container principal
+     4. Header do formulário
+     5. Estrutura do form
+     6. Títulos de seção
+     7. Layout em colunas
+     8. Inputs e select
+     9. Linha divisória
+    10. Texto auxiliar do CEP
+    11. Botão submit
+    12. Spinner de carregamento
+    13. Estados dos inputs (erro / sucesso)
+    14. Toast de feedback
+============================================================ */
+
+
+/* ============================================================
+   1. LAYOUT DA PÁGINA
+   Barra superior que posiciona o botão de voltar
+============================================================ */
 
 .page-top {
     max-width: 920px;
@@ -7,7 +30,11 @@
     align-items: center;
 }
 
-/*  Botão Voltar  */
+
+/* ============================================================
+   2. BOTÃO VOLTAR
+   Botão discreto com borda leve para retornar à home
+============================================================ */
 
 .back-button {
     background: white;
@@ -26,7 +53,11 @@
     transform: translateY(-1px);
 }
 
-/*  Container Principal  */
+
+/* ============================================================
+   3. CONTAINER PRINCIPAL
+   Card branco centralizado que envolve todo o formulário
+============================================================ */
 
 .container {
     background: white;
@@ -39,8 +70,13 @@
     overflow: hidden;
 }
 
-/*  Header do Form  */
 
+/* ============================================================
+   4. HEADER DO FORMULÁRIO
+   Faixa azul com gradiente no topo do container
+============================================================ */
+
+/* Margem negativa compensa o padding do container para ocupar a largura total */
 .form-header {
     background: linear-gradient(to right, #2563eb, #1d4ed8);
     padding: 28px 40px;
@@ -61,13 +97,18 @@
     height: 24px;
 }
 
+/* Instrução de apoio abaixo do título */
 .form-subtitle {
     margin-top: 6px;
     font-size: 14px;
     color: #bfdbfe;
 }
 
-/*  Estrutura do Form  */
+
+/* ============================================================
+   5. ESTRUTURA DO FORM
+   Empilha os campos em coluna com espaçamento uniforme
+============================================================ */
 
 form {
     display: flex;
@@ -76,7 +117,11 @@ form {
     margin-top: 24px;
 }
 
-/*  Títulos de Seção  */
+
+/* ============================================================
+   6. TÍTULOS DE SEÇÃO
+   Separadores visuais entre blocos do formulário (pessoal / endereço)
+============================================================ */
 
 .section-title {
     display: flex;
@@ -88,28 +133,34 @@ form {
     font-size: 16px;
 }
 
+/* Ícone pequeno em azul ao lado do título de cada seção */
 .section-icon {
     width: 18px;
     height: 18px;
     color: #2563eb;
 }
 
-/*  Layout em Colunas  */
 
+/* ============================================================
+   7. LAYOUT EM COLUNAS
+   Grids responsivos para exibir campos lado a lado
+============================================================ */
+
+/* 2 colunas — usado para CPF + e-mail e cidade + estado */
 .form-row-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
 }
 
+/* 3 colunas — usado para número + complemento + bairro */
 .form-row-3 {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 16px;
 }
 
-/* Responsividade */
-
+/* Em telas menores, todos os campos empilham em coluna única */
 @media (max-width: 768px) {
 
     .form-row-2,
@@ -118,7 +169,11 @@ form {
     }
 }
 
-/*  Inputs e Select  */
+
+/* ============================================================
+   8. INPUTS E SELECT
+   Estilo base dos campos de texto e dropdown
+============================================================ */
 
 label {
     font-size: 13px;
@@ -139,6 +194,7 @@ select {
     background: #f8fafc;
 }
 
+/* Destaca a borda azul e adiciona sombra de foco para acessibilidade */
 input:focus,
 select:focus {
     outline: none;
@@ -147,7 +203,11 @@ select:focus {
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
-/*  Linha divisória  */
+
+/* ============================================================
+   9. LINHA DIVISÓRIA
+   Separador horizontal entre as seções do formulário
+============================================================ */
 
 hr {
     border: none;
@@ -156,15 +216,25 @@ hr {
     margin: 24px 0;
 }
 
-/*  Texto auxiliar CEP  */
+
+/* ============================================================
+   10. TEXTO AUXILIAR DO CEP
+   Instrução exibida abaixo do campo de CEP
+============================================================ */
 
 p {
     font-size: 13px;
     color: #64748b;
+
+    /* Margem negativa aproxima o texto do campo acima */
     margin-top: -8px;
 }
 
-/*  Botão Submit  */
+
+/* ============================================================
+   11. BOTÃO SUBMIT
+   Botão principal de envio do formulário
+============================================================ */
 
 .submit-button {
     margin-top: 20px;
@@ -189,6 +259,7 @@ p {
     transform: translateY(-1px);
 }
 
+/* Estado desabilitado durante o envio — impede cliques duplos */
 .submit-button:disabled {
     opacity: 0.7;
     cursor: not-allowed;
@@ -200,7 +271,11 @@ p {
     height: 18px;
 }
 
-/*  Spinner  */
+
+/* ============================================================
+   12. SPINNER DE CARREGAMENTO
+   Ícone animado exibido no botão enquanto isSubmitting é true
+============================================================ */
 
 .spinner {
     width: 18px;
@@ -211,6 +286,7 @@ p {
     animation: spin 0.8s linear infinite;
 }
 
+/* Rotação contínua do spinner */
 @keyframes spin {
     to {
         transform: rotate(360deg);
@@ -218,29 +294,40 @@ p {
 }
 
 
+/* ============================================================
+   13. ESTADOS DOS INPUTS (ERRO / SUCESSO)
+   Classes aplicadas dinamicamente pelo componente InputField
+============================================================ */
+
+/* Asterisco vermelho nos labels de campos obrigatórios */
 .required {
     color: #ef4444;
     margin-left: 4px;
 }
 
+/* Wrapper relativo para posicionar o ícone de sucesso dentro do input */
 .input-wrapper {
     position: relative;
 }
 
+/* Borda vermelha quando o campo possui erro de validação */
 .input-error {
     border: 1px solid #ef4444;
 }
 
+/* Borda verde quando o campo está preenchido e válido */
 .input-success {
     border: 1px solid #22c55e;
 }
 
+/* Mensagem de erro exibida abaixo do campo */
 .input-error-message {
     color: #ef4444;
     font-size: 13px;
     margin-top: 4px;
 }
 
+/* Ícone de check verde posicionado dentro do input à direita */
 .input-check {
     position: absolute;
     right: 10px;
@@ -249,6 +336,12 @@ p {
     color: #22c55e;
     font-weight: bold;
 }
+
+
+/* ============================================================
+   14. TOAST DE FEEDBACK
+   Notificação flutuante exibida no canto superior direito
+============================================================ */
 
 .toast {
     position: fixed;
@@ -261,10 +354,12 @@ p {
     z-index: 999;
 }
 
+/* Verde para operações bem-sucedidas */
 .toast.success {
     background: #10b981;
 }
 
+/* Vermelho para erros de validação ou falha na requisição */
 .toast.error {
     background: #ef4444;
 }
