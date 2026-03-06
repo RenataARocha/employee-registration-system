@@ -79,6 +79,7 @@
     font-weight: 600;
     cursor: pointer;
     transition: 0.3s ease;
+    margin: 0;
 }
 
 .primary-button {
@@ -89,6 +90,7 @@
 .secondary-button {
     background-color: #10b981;
     color: white;
+    height: 42px;
 }
 
 .home-buttons button:hover {
@@ -155,8 +157,9 @@
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
     transition: 0.3s ease;
 
-    width: 50%;
+    width: 220px;
     /* metade da tela */
+
 }
 
 .feature-card:hover {
@@ -166,9 +169,44 @@
 .feature-card h3 {
     font-size: 16px;
     margin-bottom: 8px;
+    line-height: 1.5;
 }
 
 .feature-card p {
     font-size: 14px;
     color: #64748b;
+    line-height: 1.5;
+}
+
+
+.feature-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.feature-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* cores */
+
+.feature-icon.purple {
+    background: #ede9fe;
+    color: #6366f1;
+}
+
+.feature-icon.green {
+    background: #d1fae5;
+    color: #10b981;
+}
+
+.feature-icon.blue {
+    background: #dbeafe;
+    color: #2563eb;
 }

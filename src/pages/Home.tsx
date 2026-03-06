@@ -106,27 +106,59 @@ function Home() {
                         <div className="features-grid">
 
                             <article className="feature-card">
-                                <h3>Validação Inteligente</h3>
+
+                                <div className="feature-icon purple">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0" />
+                                    </svg>
+                                </div>
+
+                                <h3>Validações Automáticas</h3>
+
                                 <p>
-                                    Validação automática de CPF e e-mail para evitar dados incorretos
-                                    e garantir integridade nas informações cadastradas.
+                                    CPF, e-mail e telefone validados automaticamente para garantir
+                                    dados corretos no cadastro.
                                 </p>
+
                             </article>
 
-                            <article className="feature-card">
-                                <h3>Busca por CEP</h3>
-                                <p>
-                                    Preenchimento automático de endereço através do CEP,
-                                    otimizando tempo e reduzindo erros manuais.
-                                </p>
-                            </article>
 
                             <article className="feature-card">
-                                <h3>Gestão Organizada</h3>
+
+                                <div className="feature-icon green">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    </svg>
+                                </div>
+
+                                <h3>Endereço Automático</h3>
+
                                 <p>
-                                    Visualização clara e organizada dos funcionários cadastrados,
-                                    facilitando consultas e controle da equipe.
+                                    Digite o CEP e os dados de endereço são preenchidos automaticamente
+                                    usando a API ViaCEP.
                                 </p>
+
+                            </article>
+
+
+                            <article className="feature-card">
+
+                                <div className="feature-icon blue">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                    </svg>
+                                </div>
+
+                                <h3>Gestão de Funcionários</h3>
+
+                                <p>
+                                    Cadastre, visualize e gerencie funcionários de forma simples
+                                    e organizada.
+                                </p>
+
                             </article>
 
                         </div>
