@@ -37,7 +37,24 @@ function Employees() {
             JSON.stringify(updatedEmployees)
         )
 
+        showToast("Funcionário excluído com sucesso!", "success")
+
         setEmployeeToDelete(null)
+    }
+
+    function showToast(message: string, type: "success" | "error") {
+
+        const toast = document.createElement("div")
+
+        toast.className = `toast ${type}`
+
+        toast.innerText = message
+
+        document.body.appendChild(toast)
+
+        setTimeout(() => {
+            toast.remove()
+        }, 3000)
     }
 
     return (
@@ -54,6 +71,8 @@ function Employees() {
             </div>
 
             <div className="container">
+
+
 
                 {/* HEADER */}
 
