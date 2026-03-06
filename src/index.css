@@ -1,9 +1,16 @@
+/* 
+   index.css — Estilos globais da aplicação
+ */
+
+/* Reset básico: remove margens e paddings padrão do navegador
+   e garante que padding e border sejam incluídos no tamanho total dos elementos */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Fonte e gradiente de fundo aplicados em toda a aplicação */
 body {
   font-family: 'Inter', sans-serif;
   background: linear-gradient(135deg, #f8fafc, #e2e8f0);
