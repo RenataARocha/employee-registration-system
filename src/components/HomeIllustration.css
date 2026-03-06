@@ -1,3 +1,14 @@
+/* 
+   HomeIllustration.css — Estilos da ilustração decorativa da Home
+   Estrutura:
+     1. Container
+     2. Formas de fundo animadas
+     3. Wrapper do card
+     4. Card central
+     5. Ícones flutuantes
+     6. Animações
+ */
+
 .illustration-container {
     position: relative;
     width: 100%;
