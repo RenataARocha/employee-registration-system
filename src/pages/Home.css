@@ -1,3 +1,18 @@
+/* 
+   Home.css — Estilos da página inicial
+   Estrutura:
+     1. Layout geral
+     2. Header
+     3. Botões de navegação
+     4. Contador de funcionários
+     5. Seção de funcionalidades
+ */
+
+
+/* 1. LAYOUT GERAL
+   Centraliza o conteúdo e divide a página em duas colunas:
+   conteúdo (esquerda) e ilustração (direita) */
+
 .home-container {
     padding: 60px 40px;
     max-width: 1200px;
@@ -5,8 +20,7 @@
     min-height: 100vh;
 }
 
-/* Layout principal */
-
+/* Flex row: coluna de conteúdo à esquerda + ilustração à direita */
 .home-main {
     display: flex;
     align-items: center;
@@ -14,6 +28,7 @@
     gap: 60px;
 }
 
+/* Cada coluna ocupa metade igual do espaço disponível */
 .home-left {
     flex: 1;
 }
@@ -24,7 +39,9 @@
     justify-content: center;
 }
 
-/* ================= HEADER ================= */
+
+/* 2. HEADER
+   Ícone + título + subtítulo do sistema, lado a lado */
 
 .home-header {
     display: flex;
@@ -33,6 +50,7 @@
     margin-bottom: 30px;
 }
 
+/* Quadrado azul que envolve o ícone SVG decorativo */
 .logo-icon {
     background-color: #2563eb;
     padding: 15px;
@@ -55,13 +73,16 @@
     font-weight: 700;
 }
 
+/* Texto de apoio exibido abaixo do título principal */
 .home-subtitle {
     font-size: 16px;
     color: #64748b;
     margin-top: 4px;
 }
 
-/* ================= BOTÕES ================= */
+
+/* 3. BOTÕES DE NAVEGAÇÃO
+   Dois botões lado a lado: Novo Cadastro e Ver Funcionários */
 
 .home-buttons {
     display: flex;
@@ -69,6 +90,7 @@
     margin: 30px 0;
 }
 
+/* Estilo base compartilhado pelos dois botões */
 .home-buttons button {
     display: flex;
     align-items: center;
@@ -82,22 +104,26 @@
     margin: 0;
 }
 
+/* Botão primário — ação principal: cadastrar novo funcionário */
 .primary-button {
     background-color: #2563eb;
     color: white;
 }
 
+/* Botão secundário — ação secundária: visualizar lista */
 .secondary-button {
     background-color: #10b981;
     color: white;
     height: 42px;
 }
 
+/* Elevação sutil ao passar o mouse para feedback visual */
 .home-buttons button:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
+/* Ícones dentro dos botões herdam a cor branca do texto */
 .home-buttons svg {
     width: 18px;
     height: 18px;
@@ -106,12 +132,15 @@
     stroke-width: 2;
 }
 
-/* ================= CONTADOR ================= */
+
+/* 4. CONTADOR DE FUNCIONÁRIOS
+   Card com o número total de cadastros lido do localStorage */
 
 .home-counter {
     margin-top: 30px;
 }
 
+/* Card com sombra suave — exibe número e label em coluna */
 .counter-card {
     background: white;
     padding: 30px;
@@ -119,22 +148,28 @@
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
     display: inline-flex;
     flex-direction: column;
+
+    /* baseline alinha corretamente o número grande com a label menor */
     align-items: baseline;
 }
 
+/* Número em destaque — valor dinâmico vindo do estado do componente */
 .counter-number {
     font-size: 42px;
     font-weight: 700;
     color: #2563eb;
 }
 
+/* Label descritiva exibida abaixo do número */
 .counter-label {
     font-size: 14px;
     color: #64748b;
     margin-top: 6px;
 }
 
-/* ================= FUNCIONALIDADES ================= */
+
+/* 5. SEÇÃO DE FUNCIONALIDADES
+   Grid horizontal com três cards descritivos do sistema  */
 
 .home-features {
     margin-top: 40px;
@@ -145,23 +180,26 @@
     margin-bottom: 20px;
 }
 
+/* Remove estilos padrão de lista e exibe os itens em linha */
 .features-grid {
     display: flex;
     gap: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
+/* Card individual de cada funcionalidade */
 .feature-card {
     background: white;
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
     transition: 0.3s ease;
-
-    width: 220px;
-    /* metade da tela */
-
+    width: 211px;
 }
 
+/* Elevação no hover para feedback visual */
 .feature-card:hover {
     transform: translateY(-5px);
 }
@@ -178,7 +216,7 @@
     line-height: 1.5;
 }
 
-
+/* Quadrado colorido que envolve o ícone de cada card */
 .feature-icon {
     width: 48px;
     height: 48px;
@@ -194,18 +232,21 @@
     height: 24px;
 }
 
-/* cores */
+/* Variações de cor por tema de funcionalidade */
 
+/* Roxo — card de Validações Automáticas */
 .feature-icon.purple {
     background: #ede9fe;
     color: #6366f1;
 }
 
+/* Verde — card de Endereço Automático */
 .feature-icon.green {
     background: #d1fae5;
     color: #10b981;
 }
 
+/* Azul — card de Gestão de Funcionários */
 .feature-icon.blue {
     background: #dbeafe;
     color: #2563eb;

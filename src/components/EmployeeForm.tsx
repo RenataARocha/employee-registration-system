@@ -1,3 +1,14 @@
+/**
+ * Formulário de cadastro de novo funcionário.
+ *
+ * Responsabilidades:
+ * - Coletar e validar os dados pessoais e de endereço do funcionário
+ * - Buscar endereço automaticamente via API ViaCEP ao informar o CEP
+ * - Salvar o novo funcionário no localStorage ao submeter
+ * - Exibir feedback visual (toast) para sucesso e erros
+ * - Redirecionar para a lista de funcionários após o cadastro
+ */
+
 import InputField from "./InputField"
 import { validateEmail } from "../utils/validateEmail"
 import { validateCPF } from "../utils/validateCPF"
@@ -7,6 +18,7 @@ import { useNavigate } from "react-router-dom"
 import type { Employee } from "../types/employee"
 import "./EmployeeForm.css"
 
+// Tipagem de todos os campos do formulário
 type FormData = {
     name: string
     cpf: string
@@ -21,13 +33,18 @@ type FormData = {
     bairro: string
 }
 
+// Partial permite que apenas os campos com erro sejam preenchidos
 type FormErrors = Partial<Record<keyof FormData, string>>
 
 function EmployeeForm() {
 
+    // Controla o estado do botão submit para evitar envios duplicados
     const [isSubmitting, setIsSubmitting] = useState(false)
+
+    // Armazena as mensagens de erro por campo
     const [errors, setErrors] = useState<FormErrors>({})
 
+    // Estado central do formulário com todos os campos inicializados vazios
     const [formData, setFormData] = useState<FormData>({
         name: "",
         cpf: "",
@@ -44,6 +61,7 @@ function EmployeeForm() {
 
     const navigate = useNavigate()
 
+    // Atualiza o campo alterado no estado e revalida em tempo real
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
 
         const { name, value } = event.target
@@ -63,6 +81,7 @@ function EmployeeForm() {
         }))
     }
 
+    // Revalida o campo ao perder o foco — garante feedback mesmo sem digitar
     function handleBlur(event: React.FocusEvent<HTMLInputElement>) {
 
         const { name, value } = event.target
@@ -77,6 +96,8 @@ function EmployeeForm() {
         }))
     }
 
+    // Cria e injeta um toast no DOM com remoção automática após 3 segundos.
+    // Usa manipulação direta do DOM para evitar re-renders no formulário.
     function showToast(message: string, type: "success" | "error") {
 
         const toast = document.createElement("div")
@@ -92,6 +113,7 @@ function EmployeeForm() {
         }, 3000)
     }
 
+    // Valida um campo individualmente e retorna a mensagem de erro ou undefined
     function validateField(name: keyof FormData, value: string): string | undefined {
 
         switch (name) {
@@ -134,11 +156,16 @@ function EmployeeForm() {
         }
     }
 
+    // Executada ao submeter o formulário:
+    // 1. Valida todos os campos de uma vez
+    // 2. Exibe erros e interrompe se houver falhas
+    // 3. Salva o funcionário no localStorage e redireciona
     async function handleSubmit(event: React.FormEvent) {
         event.preventDefault()
 
         const newErrors: FormErrors = {}
 
+        // Percorre todos os campos e acumula os erros encontrados
         Object.entries(formData).forEach(([key, value]) => {
 
             const fieldName = key as keyof FormData
@@ -151,9 +178,9 @@ function EmployeeForm() {
 
         })
 
-
         setErrors(newErrors)
 
+        // Interrompe o envio se houver qualquer campo inválido
         if (Object.keys(newErrors).length > 0) {
             showToast("Por favor, corrija os erros no formulário", "error")
             return
@@ -163,6 +190,7 @@ function EmployeeForm() {
 
         const newEmployee: Employee = { ...formData }
 
+        // Recupera a lista existente ou inicializa um array vazio
         const storedEmployees = localStorage.getItem("employees")
 
         const employees: Employee[] = storedEmployees
@@ -175,15 +203,18 @@ function EmployeeForm() {
 
         showToast("Funcionário cadastrado com sucesso!", "success")
 
+        // Aguarda o toast ser exibido antes de redirecionar
         setTimeout(() => {
             navigate("/funcionarios")
         }, 1200)
     }
 
-
+    // Chamada ao sair do campo CEP — consulta a API ViaCEP e preenche
+    // automaticamente rua, cidade, estado e bairro no formulário
     async function handleCepBlur() {
         try {
 
+            // Remove caracteres não numéricos antes de consultar
             const cepLimpo = formData.cep.replace(/\D/g, "")
 
             if (cepLimpo.length !== 8) {
@@ -193,6 +224,7 @@ function EmployeeForm() {
 
             const address = await fetchAddressByCep(cepLimpo)
 
+            // Atualiza apenas os campos de endereço, preservando os demais
             setFormData(prev => ({
                 ...prev,
                 street: address.logradouro,
@@ -210,6 +242,8 @@ function EmployeeForm() {
         }
     }
 
+    // Versão do handleChange para o elemento <select> (estado)
+    // Necessária pois o select emite ChangeEvent<HTMLSelectElement>, não HTMLInputElement
     function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
 
         const { name, value } = event.target
@@ -231,6 +265,8 @@ function EmployeeForm() {
 
     return (
         <div>
+
+            {/* Barra superior com botão de voltar, fora do container do formulário */}
             <div className="page-top">
                 <button
                     type="button"
@@ -243,6 +279,7 @@ function EmployeeForm() {
 
             <section className="container">
 
+                {/* Header com gradiente azul — título e instrução do formulário */}
                 <div className="form-header">
                     <h2 className="form-title">
                         <svg
@@ -250,6 +287,7 @@ function EmployeeForm() {
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
+                            aria-hidden="true"
                         >
                             <path
                                 strokeLinecap="round"
@@ -265,12 +303,14 @@ function EmployeeForm() {
                     </p>
                 </div>
 
+                {/* ===== SEÇÃO 1: INFORMAÇÕES PESSOAIS ===== */}
                 <div className="section-title">
                     <svg
                         className="section-icon"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
+                        aria-hidden="true"
                     >
                         <path
                             strokeLinecap="round"
@@ -281,6 +321,7 @@ function EmployeeForm() {
                     </svg>
                     Informações Pessoais
                 </div>
+
                 <form onSubmit={handleSubmit}>
 
                     <InputField
@@ -297,6 +338,7 @@ function EmployeeForm() {
                         success={formData.name !== ""}
                     />
 
+                    {/* CPF e e-mail lado a lado em grid de 2 colunas */}
                     <div className="form-row-2">
                         <InputField
                             label="CPF"
@@ -340,15 +382,18 @@ function EmployeeForm() {
                         error={errors.role}
                         success={formData.role !== "" && !errors.role}
                     />
+
+                    {/* Divisor visual entre as seções de dados pessoais e endereço */}
                     <hr />
 
-
+                    {/* ===== SEÇÃO 2: ENDEREÇO ===== */}
                     <div className="section-title">
                         <svg
                             className="section-icon"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
+                            aria-hidden="true"
                         >
                             <path
                                 strokeLinecap="round"
@@ -366,6 +411,7 @@ function EmployeeForm() {
                         Endereço
                     </div>
 
+                    {/* CEP dispara handleCepBlur junto ao handleBlur padrão ao perder foco */}
                     <InputField
                         label="CEP"
                         type="text"
@@ -382,6 +428,8 @@ function EmployeeForm() {
                         error={errors.cep}
                         success={formData.cep !== "" && !errors.cep}
                     />
+
+                    {/* Instrução de apoio exibida abaixo do campo CEP */}
                     <p>Digite o CEP para buscar o endereço automaticamente</p>
 
                     <InputField
@@ -398,6 +446,7 @@ function EmployeeForm() {
                         success={formData.street !== "" && !errors.street}
                     />
 
+                    {/* Número, complemento e bairro em grid de 3 colunas */}
                     <div className="form-row-3">
                         <InputField
                             label="Número"
@@ -413,6 +462,7 @@ function EmployeeForm() {
                             success={formData.number !== "" && !errors.number}
                         />
 
+                        {/* Complemento é opcional — sem prop required e sem validação */}
                         <InputField
                             label="Complemento"
                             type="text"
@@ -439,6 +489,7 @@ function EmployeeForm() {
                         />
                     </div>
 
+                    {/* Cidade e estado em grid de 2 colunas */}
                     <div className="form-row-2">
                         <InputField
                             label="Cidade"
@@ -454,6 +505,8 @@ function EmployeeForm() {
                             success={formData.city !== "" && !errors.city}
                         />
 
+                        {/* Select de estado com classe dinâmica de erro/sucesso,
+                            usa handleSelectChange pois emite ChangeEvent<HTMLSelectElement> */}
                         <div className={`input-group ${errors.state ? "error" : formData.state ? "success" : ""}`}>
                             <label htmlFor="state">Estado</label>
 
@@ -498,6 +551,8 @@ function EmployeeForm() {
                         </div>
                     </div>
 
+                    {/* Botão de submit — desabilitado durante o envio para evitar cliques duplos.
+                        Alterna entre o texto normal e o spinner de carregamento */}
                     <button
                         type="submit"
                         className="submit-button"
@@ -510,6 +565,7 @@ function EmployeeForm() {
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
+                                    aria-hidden="true"
                                 >
                                     <path
                                         strokeLinecap="round"
