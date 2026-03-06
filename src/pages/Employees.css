@@ -1,3 +1,5 @@
+/* ================= LAYOUT DA PÁGINA ================= */
+
 .container {
     background: white;
     max-width: 920px;
@@ -8,12 +10,21 @@
     overflow: hidden;
 }
 
-/* HEADER */
+.page-top {
+    max-width: 920px;
+    margin: 40px auto 16px auto;
+    display: flex;
+    align-items: center;
+}
+
+
+/* ================= HEADER ================= */
+
 .employees-header {
     background: linear-gradient(to right, #2563eb, #1d4ed8);
     padding: 28px 32px;
     color: white;
-    margin: 0px -32px;
+    margin: 0 -32px;
 }
 
 .employees-title {
@@ -27,6 +38,7 @@
 .icon {
     width: 24px;
     height: 24px;
+    color: white;
 }
 
 .employees-subtitle {
@@ -36,12 +48,17 @@
     color: #bfdbfe;
 }
 
-/* CONTENT */
+
+/* ================= CONTEÚDO ================= */
+
 .employees-content {
     padding: 32px;
+    line-height: 1.6;
 }
 
-/* EMPTY STATE */
+
+/* ================= EMPTY STATE ================= */
+
 .empty-state {
     text-align: center;
     padding: 60px 20px;
@@ -58,12 +75,6 @@
     justify-content: center;
 }
 
-.empty-svg {
-    width: 48px;
-    height: 48px;
-    color: #94a3b8;
-}
-
 .empty-state h3 {
     font-size: 20px;
     margin-bottom: 8px;
@@ -75,42 +86,129 @@
     margin-bottom: 24px;
 }
 
-/* LIST */
+
+/* ================= LISTA DE FUNCIONÁRIOS ================= */
+
 .employees-list {
     list-style: none;
     display: flex;
-    flex-direction: column;
-    gap: 16px;
+    flex-wrap: wrap;
+    gap: 20px;
     padding: 0;
 }
 
+
+/* ================= CARD DO FUNCIONÁRIO ================= */
+
 .employee-card {
+    background: white;
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #f8fafc;
-    padding: 16px 20px;
-    border-radius: 12px;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 420px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .employee-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
-.employee-card span {
-    display: block;
-    font-size: 14px;
+
+/* topo do card */
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+/* avatar */
+
+.avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #2563eb;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+
+/* botão deletar */
+
+.delete-icon {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: 0.2s;
     color: #64748b;
+    padding: 6px;
+    border-radius: 8px;
 }
 
-.employee-card strong {
-    font-size: 16px;
+.delete-icon:hover {
+    color: #ef4444;
+    background-color: #fff1f1;
+    transform: scale(1.1);
+}
+
+.trash-icon {
+    width: 20px;
+    height: 20px;
+}
+
+
+/* corpo do card */
+.card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.card-body h3 {
+    font-size: 17px;
+    font-weight: 700;
     color: #1e293b;
+    margin-bottom: 2px;
 }
 
-/* BUTTONS */
+.role {
+    color: #2563eb;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.card-body p {
+    font-size: 13px;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+.card-body hr {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 10px 0;
+}
+
+.date {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 2px;
+}
+
+
+/* ================= BOTÕES ================= */
+
 .primary-button {
     margin-top: 20px;
     padding: 14px 20px;
@@ -121,8 +219,6 @@
     font-weight: 600;
     font-size: 15px;
     cursor: pointer;
-
-    gap: 10px;
     transition: 0.2s;
     box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
 }
@@ -130,27 +226,6 @@
 .primary-button:hover {
     background: #1d4ed8;
     transform: translateY(-1px);
-}
-
-.delete-button {
-    background: #ef4444;
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.delete-button:hover {
-    background: #dc2626;
-}
-
-.page-top {
-    max-width: 920px;
-    margin: 40px auto 16px auto;
-    display: flex;
-    align-items: center;
 }
 
 .back-button {
@@ -162,5 +237,97 @@
     font-weight: 600;
     color: #334155;
     cursor: pointer;
-    transition: 0.2s;
+}
+
+
+/* ================= MODAL ================= */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 999;
+}
+
+.modal {
+    background: white;
+    padding: 32px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+}
+
+.modal h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #1e293b;
+}
+
+.modal p {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 24px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.cancel-button {
+    background: #f1f5f9;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.delete-confirm {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.delete-confirm:hover {
+    background: #dc2626;
+}
+
+.modal-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 10px;
+
+    border-radius: 50%;
+    background: #fee2e2;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-trash-icon {
+    width: 28px;
+    height: 28px;
+    color: #ef4444;
 }
