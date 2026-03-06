@@ -7,11 +7,28 @@ import { useNavigate } from "react-router-dom"
 import type { Employee } from "../types/employee"
 import "./EmployeeForm.css"
 
+type FormData = {
+    name: string
+    cpf: string
+    email: string
+    role: string
+    cep: string
+    street: string
+    city: string
+    state: string
+    number: string
+    complemento: string
+    bairro: string
+}
+
+type FormErrors = Partial<Record<keyof FormData, string>>
+
 function EmployeeForm() {
 
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [errors, setErrors] = useState<FormErrors>({})
 
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<FormData>({
         name: "",
         cpf: "",
         email: "",
@@ -28,31 +45,121 @@ function EmployeeForm() {
     const navigate = useNavigate()
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+
         const { name, value } = event.target
 
         setFormData(prev => ({
             ...prev,
             [name]: value
         }))
+
+        const fieldName = name as keyof FormData
+
+        const errorMessage = validateField(fieldName, value)
+
+        setErrors(prev => ({
+            ...prev,
+            [fieldName]: errorMessage
+        }))
     }
 
+    function handleBlur(event: React.FocusEvent<HTMLInputElement>) {
+
+        const { name, value } = event.target
+
+        const fieldName = name as keyof FormData
+
+        const errorMessage = validateField(fieldName, value)
+
+        setErrors(prev => ({
+            ...prev,
+            [fieldName]: errorMessage
+        }))
+    }
+
+    function showToast(message: string, type: "success" | "error") {
+
+        const toast = document.createElement("div")
+
+        toast.className = `toast ${type}`
+
+        toast.innerText = message
+
+        document.body.appendChild(toast)
+
+        setTimeout(() => {
+            toast.remove()
+        }, 3000)
+    }
+
+    function validateField(name: keyof FormData, value: string): string | undefined {
+
+        switch (name) {
+
+            case "name":
+                if (!value.trim()) return "O nome é obrigatório"
+                break
+
+            case "cpf":
+                if (!validateCPF(value)) return "CPF inválido"
+                break
+
+            case "email":
+                if (!validateEmail(value)) return "Email inválido"
+                break
+
+            case "role":
+                if (!value.trim()) return "Selecione um cargo"
+                break
+
+            case "street":
+                if (!value.trim()) return "A rua é obrigatória"
+                break
+
+            case "number":
+                if (!value.trim()) return "O número é obrigatório"
+                break
+
+            case "bairro":
+                if (!value.trim()) return "O bairro é obrigatório"
+                break
+
+            case "city":
+                if (!value.trim()) return "A cidade é obrigatória"
+                break
+
+            case "state":
+                if (!value.trim()) return "Selecione um estado"
+                break
+        }
+    }
 
     async function handleSubmit(event: React.FormEvent) {
         event.preventDefault()
 
+        const newErrors: FormErrors = {}
+
+        Object.entries(formData).forEach(([key, value]) => {
+
+            const fieldName = key as keyof FormData
+
+            const errorMessage = validateField(fieldName, value)
+
+            if (errorMessage) {
+                newErrors[fieldName] = errorMessage
+            }
+
+        })
+
+
+        setErrors(newErrors)
+
+        if (Object.keys(newErrors).length > 0) {
+            showToast("Por favor, corrija os erros no formulário", "error")
+            return
+        }
+
         setIsSubmitting(true)
-
-        if (!validateEmail(formData.email)) {
-            alert("Email inválido")
-            setIsSubmitting(false)
-            return
-        }
-
-        if (!validateCPF(formData.cpf)) {
-            alert("CPF inválido")
-            setIsSubmitting(false)
-            return
-        }
 
         const newEmployee: Employee = { ...formData }
 
@@ -66,28 +173,61 @@ function EmployeeForm() {
 
         localStorage.setItem("employees", JSON.stringify(employees))
 
+        showToast("Funcionário cadastrado com sucesso!", "success")
+
         setTimeout(() => {
             navigate("/funcionarios")
-        }, 800)
+        }, 1200)
     }
 
 
     async function handleCepBlur() {
         try {
-            const address = await fetchAddressByCep(formData.cep)
+
+            const cepLimpo = formData.cep.replace(/\D/g, "")
+
+            if (cepLimpo.length !== 8) {
+                showToast("CEP inválido", "error")
+                return
+            }
+
+            const address = await fetchAddressByCep(cepLimpo)
 
             setFormData(prev => ({
                 ...prev,
                 street: address.logradouro,
                 city: address.localidade,
-                state: address.uf
+                state: address.uf,
+                bairro: address.bairro
             }))
+
+            showToast("Endereço encontrado!", "success")
+
         } catch (error) {
-            alert("Erro ao buscar CEP")
+
+            showToast("CEP não encontrado", "error")
+
         }
     }
 
+    function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
 
+        const { name, value } = event.target
+
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }))
+
+        const fieldName = name as keyof FormData
+
+        const errorMessage = validateField(fieldName, value)
+
+        setErrors(prev => ({
+            ...prev,
+            [fieldName]: errorMessage
+        }))
+    }
 
     return (
         <div>
@@ -150,7 +290,11 @@ function EmployeeForm() {
                         id="name"
                         value={formData.name}
                         onChange={handleChange}
+                        onBlur={handleBlur}
                         placeholder="Digite o nome completo do funcionário"
+                        required
+                        error={errors.name}
+                        success={formData.name !== ""}
                     />
 
                     <div className="form-row-2">
@@ -161,7 +305,11 @@ function EmployeeForm() {
                             id="cpf"
                             value={formData.cpf}
                             onChange={handleChange}
+                            onBlur={handleBlur}
                             placeholder="000.000.000-00"
+                            required
+                            error={errors.cpf}
+                            success={formData.cpf !== "" && !errors.cpf}
                         />
 
                         <InputField
@@ -171,7 +319,11 @@ function EmployeeForm() {
                             id="email"
                             value={formData.email}
                             onChange={handleChange}
+                            onBlur={handleBlur}
                             placeholder="exemplo@empresa.com.br"
+                            required
+                            error={errors.email}
+                            success={formData.email !== "" && !errors.email}
                         />
                     </div>
 
@@ -182,9 +334,12 @@ function EmployeeForm() {
                         id="role"
                         value={formData.role}
                         onChange={handleChange}
+                        onBlur={handleBlur}
                         placeholder="Digite o cargo"
+                        required
+                        error={errors.role}
+                        success={formData.role !== "" && !errors.role}
                     />
-
                     <hr />
 
 
@@ -211,7 +366,6 @@ function EmployeeForm() {
                         Endereço
                     </div>
 
-
                     <InputField
                         label="CEP"
                         type="text"
@@ -219,8 +373,14 @@ function EmployeeForm() {
                         id="cep"
                         value={formData.cep}
                         onChange={handleChange}
-                        onBlur={handleCepBlur}
+                        onBlur={(e) => {
+                            handleBlur(e)
+                            handleCepBlur()
+                        }}
                         placeholder="00000-000"
+                        required
+                        error={errors.cep}
+                        success={formData.cep !== "" && !errors.cep}
                     />
                     <p>Digite o CEP para buscar o endereço automaticamente</p>
 
@@ -231,7 +391,11 @@ function EmployeeForm() {
                         id="street"
                         value={formData.street}
                         onChange={handleChange}
+                        onBlur={handleBlur}
                         placeholder="Nome da rua"
+                        required
+                        error={errors.street}
+                        success={formData.street !== "" && !errors.street}
                     />
 
                     <div className="form-row-3">
@@ -242,7 +406,11 @@ function EmployeeForm() {
                             id="number"
                             value={formData.number}
                             onChange={handleChange}
+                            onBlur={handleBlur}
                             placeholder="N°"
+                            required
+                            error={errors.number}
+                            success={formData.number !== "" && !errors.number}
                         />
 
                         <InputField
@@ -252,6 +420,7 @@ function EmployeeForm() {
                             id="complemento"
                             value={formData.complemento}
                             onChange={handleChange}
+                            onBlur={handleBlur}
                             placeholder="Apto, Bloco, etc."
                         />
 
@@ -262,7 +431,11 @@ function EmployeeForm() {
                             id="bairro"
                             value={formData.bairro}
                             onChange={handleChange}
+                            onBlur={handleBlur}
                             placeholder="Nome do bairro"
+                            required
+                            error={errors.bairro}
+                            success={formData.bairro !== "" && !errors.bairro}
                         />
                     </div>
 
@@ -274,21 +447,22 @@ function EmployeeForm() {
                             id="city"
                             value={formData.city}
                             onChange={handleChange}
+                            onBlur={handleBlur}
                             placeholder="Nome da cidade"
+                            required
+                            error={errors.city}
+                            success={formData.city !== "" && !errors.city}
                         />
 
-                        <div className="input-group">
+                        <div className={`input-group ${errors.state ? "error" : formData.state ? "success" : ""}`}>
                             <label htmlFor="state">Estado</label>
+
                             <select
+                                required
                                 name="state"
                                 id="state"
                                 value={formData.state}
-                                onChange={(e) =>
-                                    setFormData(prev => ({
-                                        ...prev,
-                                        state: e.target.value
-                                    }))
-                                }
+                                onChange={handleSelectChange}
                             >
                                 <option value="">Selecione</option>
                                 <option value="AC">Acre</option>
@@ -319,6 +493,8 @@ function EmployeeForm() {
                                 <option value="SE">Sergipe</option>
                                 <option value="TO">Tocantins</option>
                             </select>
+
+                            {errors.state && <span className="error-message">{errors.state}</span>}
                         </div>
                     </div>
 

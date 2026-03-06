@@ -216,3 +216,55 @@ p {
         transform: rotate(360deg);
     }
 }
+
+
+.required {
+    color: #ef4444;
+    margin-left: 4px;
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.input-error {
+    border: 1px solid #ef4444;
+}
+
+.input-success {
+    border: 1px solid #22c55e;
+}
+
+.input-error-message {
+    color: #ef4444;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.input-check {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #22c55e;
+    font-weight: bold;
+}
+
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 14px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    z-index: 999;
+}
+
+.toast.success {
+    background: #10b981;
+}
+
+.toast.error {
+    background: #ef4444;
+}
