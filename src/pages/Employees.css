@@ -440,3 +440,108 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #3374cf;
 }
+
+/* 
+   ANIMAÇÃO DE ENTRADA DA PÁGINA
+   A lista inteira sobe suavemente ao carregar
+ */
+
+@keyframes pageFadeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.container {
+    animation: pageFadeUp 0.7s ease;
+}
+
+/* 
+   ANIMAÇÃO DE ENTRADA DA PÁGINA
+   A lista inteira sobe suavemente ao carregar
+ */
+
+@keyframes pageFadeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.container {
+    animation: pageFadeUp 0.7s ease;
+}
+
+/* 
+   HEADER DA LISTA
+   Título e contador aparecem suavemente
+ */
+
+@keyframes headerFade {
+    0% {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.employees-header {
+    animation: headerFade 0.6s ease;
+}
+
+/* 
+   ANIMAÇÃO DOS CARDS DE FUNCIONÁRIOS
+   Cada card aparece com leve fade e subida
+ */
+
+@keyframes cardFadeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.employee-card {
+    animation: cardFadeUp 0.5s ease;
+}
+
+/* 
+   MODAL DE CONFIRMAÇÃO
+   Aparece com leve zoom
+ */
+
+@keyframes modalZoom {
+    0% {
+        opacity: 0;
+        transform: scale(0.85);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal {
+    animation: modalZoom 0.25s ease;
+}
