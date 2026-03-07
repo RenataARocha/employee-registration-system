@@ -55,7 +55,8 @@ function Employees() {
             JSON.stringify(updatedEmployees)
         )
 
-        showToast("Funcionário excluído com sucesso!", "success")
+        // Cor vermelha (error) pois é uma ação destrutiva — exclusão de dado
+        showToast("Funcionário excluído com sucesso!", "error")
 
         // Fecha o modal após a exclusão
         setEmployeeToDelete(null)
@@ -82,13 +83,21 @@ function Employees() {
 
         <div>
 
-            {/* Barra superior com botão de voltar, fora do container principal */}
+            {/* Barra superior com botão de voltar e botão de novo cadastro */}
             <div className="page-top">
                 <button
                     className="back-button"
                     onClick={() => navigate("/")}
                 >
                     ← Voltar para Home
+                </button>
+
+                {/* Atalho para cadastrar novo funcionário sem precisar voltar à Home */}
+                <button
+                    className="new-button"
+                    onClick={() => navigate("/novo-funcionario")}
+                >
+                    + Novo Cadastro
                 </button>
             </div>
 
