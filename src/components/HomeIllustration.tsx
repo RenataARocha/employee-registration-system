@@ -1,3 +1,11 @@
+
+/**
+ * HomeIllustration
+ *
+ * Componente visual decorativo utilizado na página inicial.
+ * Não possui interação nem conteúdo semântico.
+ */
+
 /**
  * Componente de ilustração decorativa exibido no lado direito da Home.
  *
@@ -12,8 +20,8 @@ import "./HomeIllustration.css"
 
 function HomeIllustration() {
     return (
-        // aria-hidden oculta toda a ilustração de leitores de tela,
-        // pois é decorativa e não adiciona nenhuma informação ao conteúdo
+
+        // Ilustração decorativa — ocultada de leitores de tela
         <div className="illustration-container" aria-hidden="true">
 
             {/* Formas circulares desfocadas no fundo — animação de pulse suave */}
