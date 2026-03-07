@@ -277,7 +277,7 @@ function EmployeeForm() {
                 </button>
             </div>
 
-            <section className="container">
+            <section className="container-cadastro">
 
                 {/* Header com gradiente azul — título e instrução do formulário */}
                 <div className="form-header">
