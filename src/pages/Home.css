@@ -197,6 +197,10 @@
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
     transition: 0.3s ease;
     width: 211px;
+
+    opacity: 0;
+    transform: translateY(20px);
+    animation: cardFade 0.6s ease forwards;
 }
 
 /* Elevação no hover para feedback visual */
@@ -250,4 +254,42 @@
 .feature-icon.blue {
     background: #dbeafe;
     color: #2563eb;
+}
+
+
+/* ANIMAÇÃO DE ENTRADA */
+
+.home-container {
+    animation: fadeUp 0.8s ease;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.feature-card:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.feature-card:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.feature-card:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+@keyframes cardFade {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
