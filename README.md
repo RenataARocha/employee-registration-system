@@ -145,4 +145,4 @@ O `InputField` foi extraído como componente reutilizável por ser usado em múl
 ## 👩‍💻 Autora
 
 **Renata Rocha**  
-[LinkedIn](https://linkedin.com/in/seu-perfil) · [GitHub](https://github.com/seu-usuario)
+[LinkedIn](https://www.linkedin.com/in/renata-alexandre-rocha/) · [GitHub](https://github.com/RenataARocha)
