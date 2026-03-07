@@ -9,6 +9,13 @@
      6. Animações
  */
 
+
+/* 
+   1. CONTAINER
+   Área relativa que posiciona todos os elementos da ilustração.
+   display:none em mobile — ocultado pelo Home.css via .home-right
+ */
+
 .illustration-container {
     position: relative;
     width: 100%;
@@ -19,22 +26,30 @@
     align-items: center;
 }
 
+
+/* 
+   2. FORMAS DE FUNDO ANIMADAS
+   Círculos desfocados que criam o efeito de luz difusa no fundo
+ */
+
+/* Base compartilhada pelas duas formas */
 .bg-shape {
     position: absolute;
     width: 250px;
     height: 250px;
     border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.5;
-    animation: pulse 4s infinite;
+    filter: blur(60px);
+    animation: pulse 6s ease-in-out infinite;
 }
 
+/* Forma azul — canto superior direito */
 .shape-blue {
     top: 0;
     right: 0;
     background: #bfdbfe;
 }
 
+/* Forma verde — canto inferior esquerdo, com delay para descompassar a animação */
 .shape-green {
     bottom: 0;
     left: 0;
@@ -42,9 +57,23 @@
     animation-delay: 2s;
 }
 
+
+/* 
+   3. WRAPPER DO CARD
+   Posicionamento relativo para ancorar os ícones flutuantes.
+   Animação de flutuação contínua aplicada aqui.
+ */
+
 .card-wrapper {
     position: relative;
+    animation: float 4s ease-in-out infinite;
 }
+
+
+/* 
+   4. CARD CENTRAL
+   Interface fictícia que simula visualmente um sistema de cadastro
+ */
 
 .card {
     width: 280px;
@@ -54,6 +83,7 @@
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
+/* Grid de três blocos simulando campos ou colunas de uma tabela */
 .card-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -67,10 +97,12 @@
     border-radius: 8px;
 }
 
+/* Bloco do meio em azul claro para criar destaque visual */
 .card-grid .highlight {
     background: #bfdbfe;
 }
 
+/* Linhas horizontais simulando texto — larguras decrescentes criam hierarquia */
 .card-lines div {
     height: 8px;
     background: #e5e7eb;
@@ -86,6 +118,7 @@
     width: 60%;
 }
 
+/* Dois botões fictícios na base do card */
 .card-buttons {
     display: flex;
     gap: 10px;
@@ -98,14 +131,23 @@
     border-radius: 8px;
 }
 
+/* Botão principal em azul */
 .card-buttons .primary {
     background: #3b82f6;
 }
 
+/* Botão secundário em cinza claro */
 .card-buttons .secondary {
     background: #e2e8f0;
 }
 
+
+/* 
+   5. ÍCONES FLUTUANTES
+   Badges animados posicionados nos cantos do card
+ */
+
+/* Ícone de confirmação — quadrado azul no canto superior direito */
 .floating-check {
     position: absolute;
     top: -20px;
@@ -122,6 +164,8 @@
     animation: bounce 2s infinite;
 }
 
+/* Ícone de equipe — círculo verde no canto inferior esquerdo.
+   Delay descompassa o bounce dos dois ícones para efeito mais natural */
 .floating-team {
     position: absolute;
     bottom: -20px;
@@ -139,13 +183,25 @@
     animation-delay: 0.5s;
 }
 
-/*  ANIMAÇÕES  */
 
-/* leve flutuação da ilustração */
-.card-wrapper {
-    animation: float 4s ease-in-out infinite;
+/* 
+   6. ANIMAÇÕES
+ */
+
+/* Sobe e desce suavemente — aplicado nos ícones flutuantes */
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
+/* Flutuação contínua do card inteiro */
 @keyframes float {
     0% {
         transform: translateY(0);
@@ -160,14 +216,7 @@
     }
 }
 
-/* efeito de respiração nas formas do fundo */
-.bg-shape {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(60px);
-    animation: pulse 6s ease-in-out infinite;
-}
-
+/* Efeito de respiração nas formas de fundo — alterna opacidade e escala */
 @keyframes pulse {
     0% {
         transform: scale(1);

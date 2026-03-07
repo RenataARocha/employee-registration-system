@@ -6,18 +6,22 @@
      3. Botões de navegação
      4. Contador de funcionários
      5. Seção de funcionalidades
+     6. Animações
  */
 
 
-/* 1. LAYOUT GERAL
+/* 
+   1. LAYOUT GERAL
    Centraliza o conteúdo e divide a página em duas colunas:
-   conteúdo (esquerda) e ilustração (direita) */
+   conteúdo (esquerda) e ilustração (direita)
+ */
 
 .home-container {
     padding: 60px 40px;
     max-width: 1200px;
     margin: 0 auto;
     min-height: 100vh;
+    animation: fadeUp 0.8s ease;
 }
 
 /* Flex row: coluna de conteúdo à esquerda + ilustração à direita */
@@ -39,9 +43,28 @@
     justify-content: center;
 }
 
+/* Em telas menores: empilha as colunas e oculta a ilustração */
+@media (max-width: 768px) {
+    .home-container {
+        padding: 40px 20px;
+    }
 
-/* 2. HEADER
-   Ícone + título + subtítulo do sistema, lado a lado */
+    .home-main {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    /* Ilustração ocupa espaço desnecessário em mobile — oculta */
+    .home-right {
+        display: none;
+    }
+}
+
+
+/* 
+   2. HEADER
+   Ícone + título + subtítulo do sistema, lado a lado
+ */
 
 .home-header {
     display: flex;
@@ -58,6 +81,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    /* Não encolhe em telas pequenas */
+    flex-shrink: 0;
 }
 
 .logo-icon svg {
@@ -80,14 +106,29 @@
     margin-top: 4px;
 }
 
+@media (max-width: 768px) {
+    .home-title {
+        font-size: 26px;
+    }
 
-/* 3. BOTÕES DE NAVEGAÇÃO
-   Dois botões lado a lado: Novo Cadastro e Ver Funcionários */
+    .home-subtitle {
+        font-size: 14px;
+    }
+}
+
+
+/* 
+   3. BOTÕES DE NAVEGAÇÃO
+   Dois botões lado a lado: Novo Cadastro e Ver Funcionários
+ */
 
 .home-buttons {
     display: flex;
     gap: 15px;
     margin: 30px 0;
+
+    /* Quebra para nova linha se não couberem lado a lado */
+    flex-wrap: wrap;
 }
 
 /* Estilo base compartilhado pelos dois botões */
@@ -133,8 +174,10 @@
 }
 
 
-/* 4. CONTADOR DE FUNCIONÁRIOS
-   Card com o número total de cadastros lido do localStorage */
+/* 
+   4. CONTADOR DE FUNCIONÁRIOS
+   Card com o número total de cadastros lido do localStorage
+ */
 
 .home-counter {
     margin-top: 30px;
@@ -168,8 +211,10 @@
 }
 
 
-/* 5. SEÇÃO DE FUNCIONALIDADES
-   Grid horizontal com três cards descritivos do sistema  */
+/* 
+   5. SEÇÃO DE FUNCIONALIDADES
+   Três cards descritivos do sistema em linha
+ */
 
 .home-features {
     margin-top: 40px;
@@ -180,27 +225,39 @@
     margin-bottom: 20px;
 }
 
-/* Remove estilos padrão de lista e exibe os itens em linha */
+/* Remove estilos padrão de lista.
+   flex-wrap permite que os cards quebrem linha em telas menores */
 .features-grid {
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-/* Card individual de cada funcionalidade */
+/* Card individual de cada funcionalidade.
+   width fixo mantém os três lado a lado no desktop.
+   3 cards × 160px + 2 gaps × 20px = 520px — cabe bem no .home-left */
 .feature-card {
     background: white;
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
     transition: 0.3s ease;
-    width: 211px;
+    width: 160px;
+    height: 275px;
 
     opacity: 0;
     transform: translateY(20px);
     animation: cardFade 0.6s ease forwards;
+}
+
+/* Em telas pequenas os cards ocupam a largura toda */
+@media (max-width: 768px) {
+    .feature-card {
+        width: 100%;
+    }
 }
 
 /* Elevação no hover para feedback visual */
@@ -257,12 +314,11 @@
 }
 
 
-/* ANIMAÇÃO DE ENTRADA */
+/* 
+   6. ANIMAÇÕES
+ */
 
-.home-container {
-    animation: fadeUp 0.8s ease;
-}
-
+/* Container inteiro sobe suavemente ao carregar */
 @keyframes fadeUp {
     from {
         opacity: 0;
@@ -275,6 +331,7 @@
     }
 }
 
+/* Cards de funcionalidade aparecem em sequência com delay crescente */
 .feature-card:nth-child(1) {
     animation-delay: 0.2s;
 }

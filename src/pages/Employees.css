@@ -10,6 +10,7 @@
      7. Botões
      8. Modal de confirmação
      9. Scrollbar personalizada
+    10. Animações
  */
 
 
@@ -37,6 +38,9 @@
     display: flex;
     align-items: center;
     gap: 12px;
+
+    /* Padding lateral para não colar nas bordas em telas pequenas */
+    padding: 0 16px;
 }
 
 
@@ -50,6 +54,7 @@
     background: linear-gradient(to right, #2563eb, #1d4ed8);
     padding: 28px 32px;
     color: white;
+    animation: headerFade 0.6s ease;
 }
 
 .employees-title {
@@ -141,7 +146,9 @@
 
 /* 
    6. CARD DO FUNCIONÁRIO
-   Card individual com avatar, dados e botão de exclusão
+   Card individual com avatar, dados e botão de exclusão.
+   flex: 1 1 320px faz o card crescer para ocupar o espaço disponível
+   e quebrar para a linha seguinte antes de encolher abaixo de 320px.
  */
 
 .employee-card {
@@ -152,9 +159,17 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    width: 100%;
+    flex: 1 1 320px;
     max-width: 420px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    animation: cardFadeUp 0.5s ease;
+}
+
+/* Em telas pequenas o card ocupa a largura toda */
+@media (max-width: 600px) {
+    .employee-card {
+        max-width: 100%;
+    }
 }
 
 /* Elevação sutil ao passar o mouse */
@@ -324,6 +339,9 @@
 
     /* z-index alto para sobrepor todos os outros elementos */
     z-index: 999;
+
+    /* Padding lateral para o modal não colar nas bordas em telas pequenas */
+    padding: 16px;
 }
 
 /* Caixa branca centralizada com conteúdo alinhado ao centro */
@@ -339,6 +357,7 @@
     align-items: center;
     gap: 16px;
     text-align: center;
+    animation: modalZoom 0.25s ease;
 }
 
 .modal h3 {
@@ -369,6 +388,9 @@
     border-radius: 10px;
     cursor: pointer;
     font-weight: 600;
+
+    /* flex: 1 faz os dois botões dividirem o espaço igualmente */
+    flex: 1;
 }
 
 /* Botão destrutivo — confirma e executa a exclusão */
@@ -380,6 +402,7 @@
     border-radius: 10px;
     cursor: pointer;
     font-weight: 600;
+    flex: 1;
 }
 
 .delete-confirm:hover {
@@ -391,10 +414,8 @@
     width: 64px;
     height: 64px;
     margin: 0 auto 10px;
-
     border-radius: 50%;
     background: #fee2e2;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -441,11 +462,12 @@
     background: #3374cf;
 }
 
+
 /* 
-   ANIMAÇÃO DE ENTRADA DA PÁGINA
-   A lista inteira sobe suavemente ao carregar
+   10. ANIMAÇÕES
  */
 
+/* Lista inteira sobe suavemente ao carregar */
 @keyframes pageFadeUp {
     0% {
         opacity: 0;
@@ -462,32 +484,7 @@
     animation: pageFadeUp 0.7s ease;
 }
 
-/* 
-   ANIMAÇÃO DE ENTRADA DA PÁGINA
-   A lista inteira sobe suavemente ao carregar
- */
-
-@keyframes pageFadeUp {
-    0% {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.container {
-    animation: pageFadeUp 0.7s ease;
-}
-
-/* 
-   HEADER DA LISTA
-   Título e contador aparecem suavemente
- */
-
+/* Título e contador do header aparecem suavemente */
 @keyframes headerFade {
     0% {
         opacity: 0;
@@ -500,15 +497,7 @@
     }
 }
 
-.employees-header {
-    animation: headerFade 0.6s ease;
-}
-
-/* 
-   ANIMAÇÃO DOS CARDS DE FUNCIONÁRIOS
-   Cada card aparece com leve fade e subida
- */
-
+/* Cada card aparece com leve fade e subida */
 @keyframes cardFadeUp {
     0% {
         opacity: 0;
@@ -521,15 +510,7 @@
     }
 }
 
-.employee-card {
-    animation: cardFadeUp 0.5s ease;
-}
-
-/* 
-   MODAL DE CONFIRMAÇÃO
-   Aparece com leve zoom
- */
-
+/* Modal aparece com leve zoom */
 @keyframes modalZoom {
     0% {
         opacity: 0;
@@ -540,8 +521,4 @@
         opacity: 1;
         transform: scale(1);
     }
-}
-
-.modal {
-    animation: modalZoom 0.25s ease;
 }
