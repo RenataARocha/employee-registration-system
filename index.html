@@ -1,22 +1,83 @@
 <!doctype html>
-<!-- lang="pt-br" informa ao navegador e leitores de tela que o conteúdo está em português -->
-<html lang="pt-br">
+
+<!--
+  lang="pt-BR" informa ao navegador, mecanismos de busca
+  e leitores de tela que o conteúdo da aplicação está em português do Brasil
+-->
+<html lang="pt-BR">
 
 <head>
+
+  <!-- Define o padrão de codificação de caracteres -->
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  <!-- viewport garante responsividade correta em dispositivos móveis -->
+
+  <!--
+    Favicon exibido na aba do navegador.
+    O arquivo deve estar dentro da pasta /public
+  -->
+  <link rel="icon" type="image/png" href="/favicon.png" />
+
+  <!--
+    Garante que o layout seja responsivo em dispositivos móveis
+    e que a escala inicial seja correta
+  -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Título descritivo exibido na aba do navegador e nos resultados de busca -->
-  <title>Cadastro de Funcionários</title>
-  <!-- Descrição do sistema para SEO e compartilhamento em redes sociais -->
-  <meta name="description" content="Sistema simples e eficiente para cadastrar e gerenciar funcionários." />
+
+  <!--
+    Título da aplicação exibido:
+    - na aba do navegador
+    - nos resultados de busca
+    - ao compartilhar o link
+  -->
+  <title>Sistema de Cadastro de Funcionários</title>
+
+  <!--
+    Descrição da aplicação.
+    Importante para SEO e também para previews em redes sociais.
+  -->
+  <meta name="description"
+    content="Aplicação web desenvolvida em React e TypeScript para cadastro e gerenciamento de funcionários com validação de dados e integração com API de CEP." />
+
+  <!--
+    Indica o autor da aplicação
+  -->
+  <meta name="author" content="Renata Rocha" />
+
+  <!--
+    Controle de indexação por mecanismos de busca
+    index = permite indexação
+    follow = permite seguir links da página
+  -->
+  <meta name="robots" content="index, follow" />
+
+  <!--
+    Open Graph — melhora a visualização quando o link é compartilhado
+    em redes sociais como LinkedIn, WhatsApp, Facebook etc.
+  -->
+  <meta property="og:title" content="Sistema de Cadastro de Funcionários" />
+
+  <meta property="og:description"
+    content="Sistema simples e eficiente para cadastro e gerenciamento de funcionários desenvolvido com React." />
+
+  <meta property="og:type" content="website" />
+
 </head>
 
 <body>
-  <!-- Ponto de montagem da aplicação React — referenciado em main.tsx -->
+
+  <!--
+    Elemento raiz onde a aplicação React será montada.
+    O React injeta todos os componentes dentro desta div.
+  -->
   <div id="root"></div>
+
+  <!--
+    Script principal da aplicação.
+    O Vite utiliza ES Modules para carregar o arquivo main.tsx,
+    que inicializa o React e renderiza o componente App.
+  -->
   <script type="module" src="/src/main.tsx"></script>
+
 </body>
 
 </html>
