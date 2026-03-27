@@ -522,3 +522,245 @@
         transform: scale(1);
     }
 }
+
+
+/* =============================================================
+   SUBSTITUA TUDO A PARTIR DAQUI NO SEU Employees.css
+   (apague o trecho antigo "COLE ESTES TRECHOS..." até o final
+   e cole este no lugar)
+   ============================================================= */
+
+
+/* ─── BUSCA ─────────────────────────────────────────────────── */
+
+/* Wrapper externo — fora do .employees-content (que tem scroll).
+   Fica entre o header azul e a área de cards, sempre visível. */
+.search-wrapper {
+    padding: 20px 32px 0;
+    background: #fff;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.search-input {
+    flex: 1;
+    min-width: 240px;
+    padding: 10px 14px;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    outline: none;
+    font-family: inherit;
+    color: #1e293b;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+}
+
+/* Remove o ícone nativo do input type="search" em webkit */
+.search-input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 16px;
+    width: 16px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M18 6L6 18M6 6l12 12'/%3E%3C/svg%3E");
+    background-size: contain;
+    cursor: pointer;
+}
+
+.search-results {
+    font-size: 0.82rem;
+    color: #94a3b8;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+
+/* ─── TEMPO NA EMPRESA (linha no card) ──────────────────────── */
+
+.employee-tenure {
+    font-size: 0.82rem;
+    color: #94a3b8;
+    margin-top: 2px;
+}
+
+
+/* ─── BOTÕES DE AÇÃO DO CARD (editar + excluir agrupados) ───── */
+
+.card-actions {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.edit-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 8px;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+}
+
+.edit-icon:hover {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.edit-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+
+/* ─── PAGINAÇÃO ──────────────────────────────────────────────── */
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 20px 32px 28px;
+    flex-wrap: wrap;
+}
+
+.pagination-btn {
+    padding: 8px 16px;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: #475569;
+    font-family: inherit;
+    font-weight: 500;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    border-color: #2563eb;
+    color: #2563eb;
+    background: #eff6ff;
+}
+
+.pagination-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.pagination-pages {
+    display: flex;
+    gap: 4px;
+}
+
+.pagination-page {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #475569;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.pagination-page:hover:not(.active) {
+    border-color: #2563eb;
+    color: #2563eb;
+    background: #eff6ff;
+}
+
+.pagination-page.active {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: #fff;
+    font-weight: 700;
+}
+
+
+/* ─── MODAL DE EDIÇÃO ────────────────────────────────────────── */
+
+/* =============================================================
+   SUBSTITUA APENAS O TRECHO "─── MODAL DE EDIÇÃO ───" NO FINAL
+   DO SEU Employees.css PELO CÓDIGO ABAIXO.
+   O restante do arquivo (busca, paginação, etc.) permanece igual.
+   ============================================================= */
+
+
+/* ─── MODAL DE EDIÇÃO ────────────────────────────────────────── */
+
+.modal-edit {
+    background: #fff;
+    border-radius: 14px;
+    width: 100%;
+    max-width: 560px;
+    max-height: 88vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
+    animation: modalZoom 0.25s ease;
+}
+
+/* ✅ CORRIGIDO: botão ✕ posicionado absolutamente DENTRO do header azul,
+   no canto superior direito, sem ocupar espaço nem criar barra lateral */
+.modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 20;
+    background: rgba(255, 255, 255, 0);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: #fff;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    background: rgba(77, 46, 250, 0.932);
+}
+
+/* Remove margens e sombra do formulário renderizado dentro do modal */
+.modal-edit .container-cadastro {
+    box-shadow: none !important;
+    margin: 0 !important;
+    border-radius: 0 0 14px 14px !important;
+}
+
+/* Garante que o page-top (botão voltar) não apareça dentro do modal */
+.modal-edit .page-top {
+    display: none !important;
+}
+
+/* O header do formulário dentro do modal herda o border-radius do modal-edit */
+.modal-edit .form-header {
+    border-radius: 14px 14px 0 0 !important;
+}
