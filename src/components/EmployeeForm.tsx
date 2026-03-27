@@ -1,29 +1,32 @@
 /**
- * Formulário de cadastro de novo funcionário.
+ * Formulário de cadastro e edição de funcionário.
  *
  * Responsabilidades:
  * - Coletar e validar os dados pessoais e de endereço do funcionário
  * - Buscar endereço automaticamente via API ViaCEP ao informar o CEP
- * - Salvar o novo funcionário no localStorage ao submeter
+ *   (tanto via digitação manual quanto via autocomplete do browser)
+ * - Criar novo funcionário no localStorage (modo padrão)
+ * - Atualizar funcionário existente no localStorage (modo edição via initialData)
  * - Exibir feedback visual (toast) para sucesso e erros
- * - Redirecionar para a lista de funcionários após o cadastro
+ * - Redirecionar para a lista após cadastro, ou chamar onSuccess após edição
  */
 
 import InputField from "./InputField"
 import { validateEmail } from "../utils/validateEmail"
 import { validateCPF } from "../utils/validateCPF"
+import { maskCPF, maskCEP } from "../utils/masks"
 import { useState } from "react"
 import { fetchAddressByCep } from "../services/viaCepService"
 import { useNavigate } from "react-router-dom"
 import type { Employee } from "../types/employee"
 import "./EmployeeForm.css"
 
-// Tipagem de todos os campos do formulário
 type FormData = {
     name: string
     cpf: string
     email: string
     role: string
+    admissionDate: string
     cep: string
     street: string
     city: string
@@ -33,154 +36,126 @@ type FormData = {
     bairro: string
 }
 
-// Partial permite que apenas os campos com erro sejam preenchidos
 type FormErrors = Partial<Record<keyof FormData, string>>
 
-function EmployeeForm() {
+type EmployeeFormProps = {
+    initialData?: Employee
+    onSuccess?: () => void
+}
 
-    // Controla o estado do botão submit para evitar envios duplicados
+function EmployeeForm({ initialData, onSuccess }: EmployeeFormProps) {
+
+    const isEditing = !!initialData
+
     const [isSubmitting, setIsSubmitting] = useState(false)
-
-    // Armazena as mensagens de erro por campo
     const [errors, setErrors] = useState<FormErrors>({})
+    const [isFetchingCep, setIsFetchingCep] = useState(false)
 
-    // Estado central do formulário com todos os campos inicializados vazios
     const [formData, setFormData] = useState<FormData>({
-        name: "",
-        cpf: "",
-        email: "",
-        role: "",
-        cep: "",
-        street: "",
-        city: "",
-        state: "",
-        number: "",
-        complemento: "",
-        bairro: ""
+        name: initialData?.name ?? "",
+        cpf: initialData?.cpf ?? "",
+        email: initialData?.email ?? "",
+        role: initialData?.role ?? "",
+        admissionDate: initialData?.admissionDate ?? "",
+        cep: initialData?.cep ?? "",
+        street: initialData?.street ?? "",
+        city: initialData?.city ?? "",
+        state: initialData?.state ?? "",
+        number: initialData?.number ?? "",
+        complemento: initialData?.complemento ?? "",
+        bairro: initialData?.bairro ?? ""
     })
 
     const navigate = useNavigate()
 
-    // Atualiza o campo alterado no estado e revalida em tempo real
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-
         const { name, value } = event.target
 
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }))
+        let maskedValue = value
+        if (name === "cpf") maskedValue = maskCPF(value)
+        if (name === "cep") maskedValue = maskCEP(value)
+
+        setFormData(prev => ({ ...prev, [name]: maskedValue }))
 
         const fieldName = name as keyof FormData
+        const errorMessage = validateField(fieldName, maskedValue)
+        setErrors(prev => ({ ...prev, [fieldName]: errorMessage }))
 
-        const errorMessage = validateField(fieldName, value)
-
-        setErrors(prev => ({
-            ...prev,
-            [fieldName]: errorMessage
-        }))
+        // Dispara ViaCEP ao atingir o CEP completo (9 chars com máscara: "00000-000")
+        // Cobre tanto digitação manual quanto autocomplete do browser
+        if (name === "cep" && maskedValue.length === 9) {
+            fetchCepAddress(maskedValue)
+        }
     }
 
-    // Revalida o campo ao perder o foco — garante feedback mesmo sem digitar
     function handleBlur(event: React.FocusEvent<HTMLInputElement>) {
-
         const { name, value } = event.target
-
         const fieldName = name as keyof FormData
-
         const errorMessage = validateField(fieldName, value)
-
-        setErrors(prev => ({
-            ...prev,
-            [fieldName]: errorMessage
-        }))
+        setErrors(prev => ({ ...prev, [fieldName]: errorMessage }))
     }
 
-    // Cria e injeta um toast no DOM com remoção automática após 3 segundos.
-    // Usa manipulação direta do DOM para evitar re-renders no formulário.
     function showToast(message: string, type: "success" | "error") {
-
         const toast = document.createElement("div")
-
         toast.className = `toast ${type}`
-
         toast.innerText = message
-
         document.body.appendChild(toast)
-
-        setTimeout(() => {
-            toast.remove()
-        }, 3000)
+        setTimeout(() => { toast.remove() }, 3000)
     }
 
-    // Valida um campo individualmente e retorna a mensagem de erro ou undefined
     function validateField(name: keyof FormData, value: string): string | undefined {
-
         switch (name) {
-
             case "name":
                 if (!value.trim()) return "O nome é obrigatório"
                 break
-
             case "cpf":
                 if (!validateCPF(value)) return "CPF inválido"
                 break
-
             case "email":
                 if (!validateEmail(value)) return "Email inválido"
                 break
-
             case "role":
                 if (!value.trim()) return "Selecione um cargo"
                 break
-
+            case "admissionDate":
+                if (!value) return "A data de admissão é obrigatória"
+                if (new Date(value) > new Date()) return "A data não pode ser futura"
+                break
+            // ✅ CORRIGIDO: validação do CEP que estava faltando
+            case "cep":
+                if (!value.trim()) return "O CEP é obrigatório"
+                if (value.replace(/\D/g, "").length !== 8) return "CEP inválido"
+                break
             case "street":
                 if (!value.trim()) return "A rua é obrigatória"
                 break
-
             case "number":
                 if (!value.trim()) return "O número é obrigatório"
                 break
-
             case "bairro":
                 if (!value.trim()) return "O bairro é obrigatório"
                 break
-
             case "city":
                 if (!value.trim()) return "A cidade é obrigatória"
                 break
-
             case "state":
                 if (!value.trim()) return "Selecione um estado"
                 break
         }
     }
 
-    // Executada ao submeter o formulário:
-    // 1. Valida todos os campos de uma vez
-    // 2. Exibe erros e interrompe se houver falhas
-    // 3. Salva o funcionário no localStorage e redireciona
     async function handleSubmit(event: React.FormEvent) {
         event.preventDefault()
 
         const newErrors: FormErrors = {}
-
-        // Percorre todos os campos e acumula os erros encontrados
         Object.entries(formData).forEach(([key, value]) => {
-
             const fieldName = key as keyof FormData
-
             const errorMessage = validateField(fieldName, value)
-
-            if (errorMessage) {
-                newErrors[fieldName] = errorMessage
-            }
-
+            if (errorMessage) newErrors[fieldName] = errorMessage
         })
 
         setErrors(newErrors)
 
-        // Interrompe o envio se houver qualquer campo inválido
         if (Object.keys(newErrors).length > 0) {
             showToast("Por favor, corrija os erros no formulário", "error")
             return
@@ -188,43 +163,36 @@ function EmployeeForm() {
 
         setIsSubmitting(true)
 
-        const newEmployee: Employee = { ...formData }
-
-        // Recupera a lista existente ou inicializa um array vazio
         const storedEmployees = localStorage.getItem("employees")
+        const employees: Employee[] = storedEmployees ? JSON.parse(storedEmployees) : []
 
-        const employees: Employee[] = storedEmployees
-            ? JSON.parse(storedEmployees)
-            : []
-
-        employees.push(newEmployee)
-
-        localStorage.setItem("employees", JSON.stringify(employees))
-
-        showToast("Funcionário cadastrado com sucesso!", "success")
-
-        // Aguarda o toast ser exibido antes de redirecionar
-        setTimeout(() => {
-            navigate("/funcionarios")
-        }, 1200)
+        if (isEditing && initialData) {
+            const updatedEmployees = employees.map(emp =>
+                emp.cpf === initialData.cpf ? { ...emp, ...formData } : emp
+            )
+            localStorage.setItem("employees", JSON.stringify(updatedEmployees))
+            setIsSubmitting(false)
+            onSuccess?.()
+        } else {
+            const newEmployee: Employee = { ...formData }
+            employees.push(newEmployee)
+            localStorage.setItem("employees", JSON.stringify(employees))
+            showToast("Funcionário cadastrado com sucesso!", "success")
+            setTimeout(() => { navigate("/funcionarios") }, 1200)
+        }
     }
 
-    // Chamada ao sair do campo CEP — consulta a API ViaCEP e preenche
-    // automaticamente rua, cidade, estado e bairro no formulário
-    async function handleCepBlur() {
+    // Função de busca CEP reutilizada pelo onChange e pelo onBlur
+    async function fetchCepAddress(cep: string) {
+        const cepLimpo = cep.replace(/\D/g, "")
+        if (cepLimpo.length !== 8) return
+
+        // Evita chamadas duplicadas (ex: onChange + onBlur disparando juntos)
+        if (isFetchingCep) return
+        setIsFetchingCep(true)
+
         try {
-
-            // Remove caracteres não numéricos antes de consultar
-            const cepLimpo = formData.cep.replace(/\D/g, "")
-
-            if (cepLimpo.length !== 8) {
-                showToast("CEP inválido", "error")
-                return
-            }
-
             const address = await fetchAddressByCep(cepLimpo)
-
-            // Atualiza apenas os campos de endereço, preservando os demais
             setFormData(prev => ({
                 ...prev,
                 street: address.logradouro,
@@ -232,92 +200,65 @@ function EmployeeForm() {
                 state: address.uf,
                 bairro: address.bairro
             }))
-
             showToast("Endereço encontrado!", "success")
-
-        } catch (error) {
-
+        } catch {
             showToast("CEP não encontrado", "error")
-
+        } finally {
+            setIsFetchingCep(false)
         }
     }
 
-    // Versão do handleChange para o elemento <select> (estado)
-    // Necessária pois o select emite ChangeEvent<HTMLSelectElement>, não HTMLInputElement
+    // onBlur do CEP: complementa o onChange para o caso de
+    // digitação caractere a caractere sem acionar o autocomplete
+    async function handleCepBlur() {
+        const cepLimpo = formData.cep.replace(/\D/g, "")
+        if (cepLimpo.length === 8) {
+            await fetchCepAddress(formData.cep)
+        }
+    }
+
     function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
-
         const { name, value } = event.target
-
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }))
-
+        setFormData(prev => ({ ...prev, [name]: value }))
         const fieldName = name as keyof FormData
-
         const errorMessage = validateField(fieldName, value)
-
-        setErrors(prev => ({
-            ...prev,
-            [fieldName]: errorMessage
-        }))
+        setErrors(prev => ({ ...prev, [fieldName]: errorMessage }))
     }
 
     return (
         <div>
 
-            {/* Barra superior com botão de voltar, fora do container do formulário */}
-            <div className="page-top">
-                <button
-                    type="button"
-                    onClick={() => navigate("/")}
-                    className="back-button"
-                >
-                    ← Voltar para Home
-                </button>
-            </div>
+            {!isEditing && (
+                <div className="page-top">
+                    <button type="button" onClick={() => navigate("/")} className="back-button">
+                        ← Voltar para Home
+                    </button>
+                </div>
+            )}
 
             <section className="container-cadastro">
 
-                {/* Header com gradiente azul — título e instrução do formulário */}
                 <div className="form-header">
                     <h2 className="form-title">
-                        <svg
-                            className="header-icon"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            aria-hidden="true"
-                        >
+                        <svg className="header-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth="2"
-                                d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                                d={isEditing
+                                    ? "M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                    : "M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                                }
                             />
                         </svg>
-                        Dados do Funcionário
+                        {isEditing ? "Editar Funcionário" : "Dados do Funcionário"}
                     </h2>
-                    <p className="form-subtitle">
-                        Preencha todos os campos obrigatórios
-                    </p>
+                    <p className="form-subtitle">Preencha todos os campos obrigatórios</p>
                 </div>
 
-                {/* ===== SEÇÃO 1: INFORMAÇÕES PESSOAIS ===== */}
                 <div className="section-title">
-                    <svg
-                        className="section-icon"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                        />
+                    <svg className="section-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                     Informações Pessoais
                 </div>
@@ -338,7 +279,6 @@ function EmployeeForm() {
                         success={formData.name !== ""}
                     />
 
-                    {/* CPF e e-mail lado a lado em grid de 2 colunas */}
                     <div className="form-row-2">
                         <InputField
                             label="CPF"
@@ -369,49 +309,46 @@ function EmployeeForm() {
                         />
                     </div>
 
-                    <InputField
-                        label="Cargo"
-                        type="text"
-                        name="role"
-                        id="role"
-                        value={formData.role}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        placeholder="Digite o cargo"
-                        required
-                        error={errors.role}
-                        success={formData.role !== "" && !errors.role}
-                    />
+                    <div className="form-row-2">
+                        <InputField
+                            label="Cargo"
+                            type="text"
+                            name="role"
+                            id="role"
+                            value={formData.role}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            placeholder="Digite o cargo"
+                            required
+                            error={errors.role}
+                            success={formData.role !== "" && !errors.role}
+                        />
 
-                    {/* Divisor visual entre as seções de dados pessoais e endereço */}
+                        <InputField
+                            label="Data de Admissão"
+                            type="date"
+                            name="admissionDate"
+                            id="admissionDate"
+                            value={formData.admissionDate}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            placeholder=""
+                            required
+                            error={errors.admissionDate}
+                            success={formData.admissionDate !== "" && !errors.admissionDate}
+                        />
+                    </div>
+
                     <hr />
 
-                    {/* ===== SEÇÃO 2: ENDEREÇO ===== */}
                     <div className="section-title">
-                        <svg
-                            className="section-icon"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            aria-hidden="true"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                            />
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                            />
+                        <svg className="section-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
                         Endereço
                     </div>
 
-                    {/* CEP dispara handleCepBlur junto ao handleBlur padrão ao perder foco */}
                     <InputField
                         label="CEP"
                         type="text"
@@ -429,7 +366,6 @@ function EmployeeForm() {
                         success={formData.cep !== "" && !errors.cep}
                     />
 
-                    {/* Instrução de apoio exibida abaixo do campo CEP */}
                     <p>Digite o CEP para buscar o endereço automaticamente</p>
 
                     <InputField
@@ -446,7 +382,6 @@ function EmployeeForm() {
                         success={formData.street !== "" && !errors.street}
                     />
 
-                    {/* Número, complemento e bairro em grid de 3 colunas */}
                     <div className="form-row-3">
                         <InputField
                             label="Número"
@@ -462,7 +397,6 @@ function EmployeeForm() {
                             success={formData.number !== "" && !errors.number}
                         />
 
-                        {/* Complemento é opcional — sem prop required e sem validação */}
                         <InputField
                             label="Complemento"
                             type="text"
@@ -489,7 +423,6 @@ function EmployeeForm() {
                         />
                     </div>
 
-                    {/* Cidade e estado em grid de 2 colunas */}
                     <div className="form-row-2">
                         <InputField
                             label="Cidade"
@@ -505,18 +438,9 @@ function EmployeeForm() {
                             success={formData.city !== "" && !errors.city}
                         />
 
-                        {/* Select de estado com classe dinâmica de erro/sucesso,
-                            usa handleSelectChange pois emite ChangeEvent<HTMLSelectElement> */}
                         <div className={`input-group ${errors.state ? "error" : formData.state ? "success" : ""}`}>
                             <label htmlFor="state">Estado</label>
-
-                            <select
-                                required
-                                name="state"
-                                id="state"
-                                value={formData.state}
-                                onChange={handleSelectChange}
-                            >
+                            <select required name="state" id="state" value={formData.state} onChange={handleSelectChange}>
                                 <option value="">Selecione</option>
                                 <option value="AC">Acre</option>
                                 <option value="AL">Alagoas</option>
@@ -546,35 +470,17 @@ function EmployeeForm() {
                                 <option value="SE">Sergipe</option>
                                 <option value="TO">Tocantins</option>
                             </select>
-
                             {errors.state && <span className="error-message">{errors.state}</span>}
                         </div>
                     </div>
 
-                    {/* Botão de submit — desabilitado durante o envio para evitar cliques duplos.
-                        Alterna entre o texto normal e o spinner de carregamento */}
-                    <button
-                        type="submit"
-                        className="submit-button"
-                        disabled={isSubmitting}
-                    >
+                    <button type="submit" className="submit-button" disabled={isSubmitting}>
                         {!isSubmitting ? (
                             <>
-                                <svg
-                                    className="button-icon"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M5 13l4 4L19 7"
-                                    />
+                                <svg className="button-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                                 </svg>
-                                Cadastrar Funcionário
+                                {isEditing ? "Salvar Alterações" : "Cadastrar Funcionário"}
                             </>
                         ) : (
                             <>
@@ -590,4 +496,4 @@ function EmployeeForm() {
     )
 }
 
-export default EmployeeForm;
+export default EmployeeForm

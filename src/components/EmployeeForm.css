@@ -67,7 +67,7 @@
 
 .container-cadastro {
     background: white;
-    width: 90%;
+    width: 100%;
     max-width: 920px;
     margin: 20px auto 60px auto;
     padding: 0 32px 32px 32px;
@@ -78,7 +78,7 @@
 /* Em telas pequenas, ocupa quase toda a largura e reduz o padding interno */
 @media (max-width: 600px) {
     .container-cadastro {
-        width: 95%;
+        width: 100%;
         padding: 0 16px 24px 16px;
     }
 }
