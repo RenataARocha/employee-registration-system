@@ -5,14 +5,19 @@
  * a listagem (Employees) e o serviço de persistência (localStorage).
  */
 
-export interface Employee {
-    admissionDate: string
+// src/types/employee.ts
+
+export type Employee = {
     name: string
     cpf: string
     email: string
     role: string
+    admissionDate: string
     cep: string
     street: string
     city: string
     state: string
+    number: string
+    complemento: string
+    bairro: string
 }
