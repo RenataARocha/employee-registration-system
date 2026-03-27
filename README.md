@@ -9,7 +9,8 @@ Aplicação front-end desenvolvida em React + TypeScript para cadastro e gerenci
 
 
 
-https://github.com/user-attachments/assets/2652f536-522a-4d49-92c7-17a95e590a6d
+https://github.com/user-attachments/assets/2e76a0db-9d7d-477b-8ace-4a39e89a3cca
+
 
 
 ## 🏆 Lighthouse
