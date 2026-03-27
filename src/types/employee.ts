@@ -6,6 +6,7 @@
  */
 
 export interface Employee {
+    admissionDate: string
     name: string
     cpf: string
     email: string
